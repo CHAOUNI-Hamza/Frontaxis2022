@@ -43,7 +43,6 @@
 <h3 class="card-title">Information Axis</h3>
 </div>
 
-
 <form @submit.prevent="created()">
 <div class="row">
   <div class="col-md-6">
@@ -120,6 +119,93 @@
 <button type="submit" class="btn btn-primary">Created</button>
 </div>
 </form>
+
+</div>
+          </div>
+          <div v-if="FormEdition" class="col-md-12">
+            <div class="card card-primary">
+<div class="card-header">
+<h3 class="card-title">Information Axis</h3>
+</div>
+
+
+
+<form @submit.prevent="update(axis.id)">
+<div class="row">
+  <div class="col-md-6">
+    <div class="card-body">
+<div class="form-group">
+<label for="exampleInputEmail1">Email address</label>
+<input v-model="axis.email" name="axis.email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+</div>
+<div class="form-group">
+<label for="exampleInputEmail1">Phone</label>
+<input v-model="axis.phone" name="axis.phone" type="text" class="form-control" id="exampleInputEmail1" placeholder="Phone">
+</div>
+<div class="form-group">
+<label for="exampleInputEmail1">Adresse</label>
+<textarea v-model="axis.address" name="axis.address" type="text" class="form-control" id="exampleInputEmail1" placeholder="Adresse"></textarea>
+</div>
+<div class="form-group">
+<label for="exampleInputEmail1">Description Agence</label>
+<textarea v-model="axis.description_agency" name="axis.description_agency" type="text" class="form-control" id="exampleInputEmail1" placeholder="Description Agence"></textarea>
+</div>
+<div class="form-group">
+<label for="exampleInputEmail1">Localisation</label>
+<input v-model="axis.localisation" name="axis.localisation" type="text" class="form-control" id="exampleInputEmail1" placeholder="Localisation ( URL )">
+</div>
+<div class="form-group">
+<label for="exampleInputPassword1">Social</label>
+<input v-model="axis.social" name="axis.social" type="text" class="form-control" id="exampleInputPassword1" placeholder="Social">
+</div>
+</div>
+  </div>
+  <div class="col-md-6">
+    <div class="card-body">
+<div class="form-group">
+<label for="exampleInputFile">Logo</label>
+<div class="input-group">
+<div class="custom-file">
+<input @change="onChangeLogo" name="axis.logo" type="file" class="custom-file-input" id="exampleInputFile">
+<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+</div>
+<div class="input-group-append">
+<span class="input-group-text">Upload</span>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="exampleInputFile">Logo Carousel</label>
+<div class="input-group">
+<div class="custom-file">
+<input @change="onChangePhotoCarousel" name="axis.photo_carousel" type="file" class="custom-file-input" id="exampleInputFile">
+<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+</div>
+<div class="input-group-append">
+<span class="input-group-text">Upload</span>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="exampleInputFile">Photo Agence</label>
+<div class="input-group">
+<div class="custom-file">
+<input @change="onChangePhotoAgency" name="axis.photo_agency" type="file" class="custom-file-input" id="exampleInputFile">
+<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+</div>
+<div class="input-group-append">
+<span class="input-group-text">Upload</span>
+</div>
+</div>
+</div>
+</div>
+  </div>
+</div>
+
+<div class="card-footer">
+<button type="submit" class="btn btn-primary">Update</button>
+</div>
+</form>
 </div>
           </div>
           <!-- end form created -->
@@ -157,19 +243,22 @@
 </tr>
 </thead>
 <tbody>
-<tr v-for="(axise, index) in axiss" v-bind:key="index">
-<td>{{ index }}</td>
+<tr v-for="(axise, index) in axiss" v-bind:key="axise.id">
+<td>{{ index + 1 }}</td>
 <td>{{ axise.email }}</td>
 <td>{{ axise.phone }}</td>
 <td>{{ axise.address }}</td>
 <td>{{ axise.description_agency }}</td>
 <td>{{ axise.localisation }}</td>
 <td>{{ axise.social }}</td>
-<td><img :src="'http://localhost:8000'+axise.logo" alt="" width="100%"></td>
-<td><img :src="'http://localhost:8000'+axise.photo_carousel" alt="" width="100%"></td>
-<td><img :src="'http://localhost:8000'+axise.photo_agency" alt="" width="100%"></td>
+<td><img :src="$store.state.UrlBack+axise.logo" alt="" width="100%"></td>
+<td><img :src="$store.state.UrlBack+axise.photo_carousel" alt="" width="100%"></td>
+<td><img :src="$store.state.UrlBack+axise.photo_agency" alt="" width="100%"></td>
+<td><button @click="edit(axise.id)" class="btn btn-success"><i class="fa fa-pencil-square"></i></button></td>
+<td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
 </tr>
 </tbody>
+<!--<Pagination :data="laravelData" @pagination-change-page="getResults" />-->
 </table>
 </div>
 
@@ -193,11 +282,13 @@
 </template>
 
 <script>
+//import Pagination from 'laravel-vue-pagination'
 import AdminNav from './TemplateAdmin/AdminNav.vue'
 import AdminAsideTop from './TemplateAdmin/AdminAsideTop.vue'
 import AdminAsideBottom from './TemplateAdmin/AdminAsideBottom.vue'
 import AdminFooter from './TemplateAdmin/AdminFooter.vue'
-import axios from 'axios';
+import axios from 'axios'
+
 export default {
   name: 'HelloWorld',
   props: {
@@ -208,10 +299,12 @@ export default {
     AdminAsideTop,
     AdminAsideBottom,
     AdminFooter,
+    //Pagination
   },
   data() {
       return {
         FormCreated: false,
+        FormEdition: false,
         TableListe: true,
         axis: {
           logo:'',
@@ -290,6 +383,7 @@ export default {
 
           this.FormCreated = !this.FormCreated
           this.TableListe = !this.TableListe
+          this.get()
 
          Swal.fire(
   'Good job!',
@@ -309,16 +403,67 @@ export default {
               sortby: 'id',
               orderby: 'ASC',
               filtervalue: '',
-              paginate: '',
+              paginate: '10',
               created_at: '',
               updated_at: '',
-              expand: '1',
+              expand: '',
         }
         const response = await axios.get('api/v1/company/index?filter='+ this.filterGet.filter +'&sortby='+ this.filterGet.sortby +'&orderby='+ this.filterGet.orderby +'&filtervalue='+ this.filterGet.filtervalue +'&paginate='+ this.filterGet.paginate +'&created_at='+ this.filterGet.created_at +'&updated_at='+ this.filterGet.updated_at +'&expand='+ this.filterGet.expand)
-        this.axiss = response.data
+        this.axiss = response.data.data
       } catch (error) {
         console.log(error)
       }
+    },
+    // edit
+    async edit(id) {
+      try {
+        this.FormEdition = !this.FormEdition
+        const response = await axios.get('api/v1/company/index?expand='+ id)
+        this.axis = {
+          id: response.data.data.id,
+          logo: response.data.data.logo,
+          photo_carousel: response.data.data.photo_carousel,
+          description_agency: response.data.data.description_agency,
+          photo_agency: response.data.data.photo_agency,
+          address: response.data.data.address,
+          email: response.data.data.email,
+          phone: response.data.data.phone,
+          localisation: response.data.data.localisation,
+          social: response.data.data.social,
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    // update
+    async update(id) {
+      try {
+          let formData = new FormData();
+          formData.append('logo', this.axis.logo);
+          formData.append('photo_carousel', this.axis.photo_carousel);
+          formData.append('description_agency', this.axis.description_agency);
+          formData.append('photo_agency', this.axis.photo_agency);
+          formData.append('address', this.axis.address);
+          formData.append('email', this.axis.email);
+          formData.append('phone', this.axis.phone);
+          formData.append('localisation', this.axis.localisation);
+          formData.append('social', this.axis.social);
+
+          const response = await axios.put('api/v1/company/update/'+ id, formData)
+
+          this.FormEdition = !this.FormEdition
+          this.TableListe = !this.TableListe
+          this.get()
+
+         Swal.fire(
+  'Good job!',
+  '',
+  'success'
+)
+
+        } catch (error) {
+            console.log(error);
+        }
     }
   },
   mounted() {
@@ -331,6 +476,15 @@ export default {
 <style scoped>
 .wrapper .content .btn {
     width: 10%;
+    margin-bottom: 20px;
+}
+.wrapper .table img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+.wrapper .content .table .btn {
+    width: 100%;
     margin-bottom: 20px;
 }
 </style>

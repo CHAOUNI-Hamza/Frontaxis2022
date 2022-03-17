@@ -3,6 +3,7 @@ import auth from './auth/index';
 
 export default createStore({
   state: {
+    UrlBack: "http://localhost:8000"
   },
   mutations: {
   },
