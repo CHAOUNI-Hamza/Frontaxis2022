@@ -30,14 +30,115 @@
         <div class="content">
           <div class="container-fluid">
                 <div class="row">
+                  <div class="row">
+                    <div class="col-md-3" v-if="!TableTrashed">
                     <!-- button affiche trashed -->
-                      <button v-if="!TableTrashed" @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached <i class="fa fa-trash" aria-hidden="true"></i></button>
+                      <button @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
+                  </div>
+                  <div class="col-md-3" v-if="TableTrashed">
                     <!-- button remove trashed -->
-                      <button v-if="TableTrashed" style="width:13%" @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached <i class="fa fa-minus" aria-hidden="true"></i></button>
+                      <button @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached   <i class="fa fa-minus" aria-hidden="true"></i></button>
+                  </div>
+                  <div class="col-md-3" v-if="!FormCreated && !TableTrashed && !FormEdition">
                     <!-- button created -->
-                      <button v-if="!FormCreated && !TableTrashed && !FormEdition" @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created <i class="fa fa-plus" aria-hidden="true"></i></button>
-                        <input type="text" v-model="filterGet.paginate">
-                        <input type="text" v-model="filterGet.orderby">
+                      <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
+                  </div>
+                  <div class="col-md-3">
+                    <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search   <i class="fa fa-refresh" aria-hidden="true"></i></button>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label>Filter by</label>
+                        <select v-model="filterGet.filter" class="form-control">
+                        <option value="email">Email</option>
+                        <option value="phone">Phone</option>
+                        <option value="address">Adress</option>
+                        <option value="description_agency">Description</option>
+                        <option value="localisation">Localisation</option>
+                        <option value="social">Social</option>
+                        </select>
+                      </div>
+                    </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Search</label>
+                          <input v-model="filterGet.filtervalue" type="text" class="form-control" placeholder="Search ...">
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <label>Sort By</label>
+                        <select v-model="filterGet.sortby" class="form-control">
+                        <option value="id">Id</option>
+                        <option value="email">Email</option>
+                        <option value="phone">Phone</option>
+                        <option value="address">Adress</option>
+                        <option value="description_agency">Description</option>
+                        <option value="localisation">Localisation</option>
+                        <option value="social">Social</option>
+                        </select>
+                      </div>
+                      <div class="col-md-2">
+                        <label>Order By</label>
+                        <select v-model="filterGet.orderby" class="form-control">
+                        <option value="asc">ASC</option>
+                        <option value="desc">DESC</option>
+                        </select>
+                      </div>
+                      <div class="col-md-2">
+                        <label>Pagination</label>
+                        <select v-model="filterGet.paginate" class="form-control">
+                        <option value="5">05</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        </select>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Date Created</label>
+                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                          <input v-model="filterGet.created_at" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Date Updated</label>
+                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                          <input v-model="filterGet.updated_at" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Date From</label>
+                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                          <input v-model="filterGet.date_from" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Date To</label>
+                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                          <input v-model="filterGet.date_to" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+
+                  </div>
                     <!-- start form created -->
                               <div v-if="FormCreated" class="col-md-12">
                                 <div class="card card-primary">
@@ -221,7 +322,7 @@
                     <div class="card-header">
                     <h3 class="card-title">Table Liste</h3>
                     <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
+                    <!--<div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="filterGet" v-model="Search" class="form-control float-right" placeholder="Search">
                     
                     <div class="input-group-append">
@@ -229,7 +330,7 @@
                     <i class="fas fa-search"></i>
                     </button>
                     </div>
-                    </div>
+                    </div>-->
                     </div>
                     </div>
 
@@ -312,12 +413,12 @@
                     <tbody>
                     <tr v-for="(axise, index) in axissTrashed" v-bind:key="axise.id">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ axise.email }}</td>
-                    <td>{{ axise.phone }}</td>
-                    <td>{{ axise.address }}</td>
-                    <td>{{ axise.description_agency }}</td>
-                    <td>{{ axise.localisation }}</td>
-                    <td>{{ axise.social }}</td>
+                    <td>{{ axise.email.substr(0, 10) }}...</td>
+                    <td>{{ axise.phone.substr(0, 10) }}...</td>
+                    <td>{{ axise.address.substr(0, 10) }}...</td>
+                    <td>{{ axise.description_agency.substr(0, 10) }}...</td>
+                    <td>{{ axise.localisation.substr(0, 10) }}...</td>
+                    <td>{{ axise.social.substr(0, 10) }}...</td>
                     <td><img :src="$store.state.UrlBack+axise.logo" alt="" width="100%"></td>
                     <td><img :src="$store.state.UrlBack+axise.photo_carousel" alt="" width="100%"></td>
                     <td><img :src="$store.state.UrlBack+axise.photo_agency" alt="" width="100%"></td>
@@ -400,14 +501,16 @@ export default {
         axissTrashed: [],
         // variable de filter
         filterGet: {
-              filter: '',
+              filter: 'email',
               sortby: 'id',
-              orderby: 'ASC',
+              orderby: 'asc',
               filtervalue: '',
-              paginate: '10',
+              paginate: '5',
               created_at: '',
               updated_at: '',
               expand: '',
+              date_from: '',
+              date_to: ''
         }
       }
   },
@@ -415,12 +518,7 @@ export default {
 
       filterGet: {
                 handler: function (newQ, old) {
-                    if( newQ === "" ) {
-          
           this.get()
-        } else {
-          this.get()
-        }
                 },
                 deep: true
             }
@@ -436,6 +534,21 @@ export default {
       }*/
     },
   methods: {
+    // function pour vider les input de recherche
+    emptyfieldsearch() {
+      this.filterGet = {
+              filter: 'email',
+              sortby: 'id',
+              orderby: 'asc',
+              filtervalue: '',
+              paginate: '5',
+              created_at: '',
+              updated_at: '',
+              expand: '',
+              date_from: '',
+              date_to: ''
+        }
+    },
     // function cacher form edition
     buttoncacherformedition() {
       this.FormEdition = !this.FormEdition
@@ -479,6 +592,7 @@ export default {
       this.trashed()
       this.TableTrashed = !this.TableTrashed
       this.TableListe = !this.TableListe
+      this.FormCreated = false
     },
     // function affiche form created
     ButtonCreated() {
@@ -515,7 +629,7 @@ console.log(formData);
           const response = await axios.post('api/v1/company/store', formData)
 
           this.FormCreated = !this.FormCreated
-          this.TableListe = !this.TableListe
+          this.TableListe = true
           this.get()
 
          Swal.fire(
@@ -562,6 +676,7 @@ console.log(formData);
       try {
         this.FormEdition = !this.FormEdition
         const response = await axios.get('api/v1/company/index?expand='+ id)
+        console.log(response.data.data)
         this.axis = {
           id: response.data.data.id,
           logo: response.data.data.logo,
@@ -683,7 +798,6 @@ console.log(formData);
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .wrapper .content .btn {
-  width: 10%;
     margin-bottom: 20px;
     margin-left: 20px;
 }
