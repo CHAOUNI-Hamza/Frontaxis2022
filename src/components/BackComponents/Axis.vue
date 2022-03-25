@@ -1,32 +1,14 @@
 <template>
 <div class="wrapper">
-  <!-- Navbar -->
+
   <AdminNav />
-  <!-- /.navbar -->
-  <!-- Main Sidebar Container -->
+
   <AdminAsideTop />
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-          <div class="container-fluid">
-            <div class="row mb-2">
-              <div class="col-sm-6">
-                <h1 class="m-0">Starter Page</h1>
-              </div><!-- /.col -->
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active">Starter Page</li>
-                </ol>
-              </div><!-- /.col -->
-            </div><!-- /.row -->
-          </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
+        <HeaderAdmin />
         
-    <!-- Main content -->
+        
         <div class="content">
           <div class="container-fluid">
                 <div class="row">
@@ -47,392 +29,22 @@
                     <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search   <i class="fa fa-refresh" aria-hidden="true"></i></button>
                   </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <label>Filter by</label>
-                        <select v-model="filterGet.filter" class="form-control">
-                        <option value="email">Email</option>
-                        <option value="phone">Phone</option>
-                        <option value="address">Adress</option>
-                        <option value="description_agency">Description</option>
-                        <option value="localisation">Localisation</option>
-                        <option value="social">Social</option>
-                        </select>
-                      </div>
-                    </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Search</label>
-                          <input v-model="filterGet.filtervalue" type="text" class="form-control" placeholder="Search ...">
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <label>Sort By</label>
-                        <select v-model="filterGet.sortby" class="form-control">
-                        <option value="id">Id</option>
-                        <option value="email">Email</option>
-                        <option value="phone">Phone</option>
-                        <option value="address">Adress</option>
-                        <option value="description_agency">Description</option>
-                        <option value="localisation">Localisation</option>
-                        <option value="social">Social</option>
-                        </select>
-                      </div>
-                      <div class="col-md-2">
-                        <label>Order By</label>
-                        <select v-model="filterGet.orderby" class="form-control">
-                        <option value="asc">ASC</option>
-                        <option value="desc">DESC</option>
-                        </select>
-                      </div>
-                      <div class="col-md-2">
-                        <label>Pagination</label>
-                        <select v-model="filterGet.paginate" class="form-control">
-                        <option value="5">05</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="25">25</option>
-                        <option value="30">30</option>
-                        </select>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Date Created</label>
-                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input v-model="filterGet.created_at" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Date Updated</label>
-                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input v-model="filterGet.updated_at" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Date From</label>
-                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input v-model="filterGet.date_from" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label>Date To</label>
-                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input v-model="filterGet.date_to" type="date" class="form-control datetimepicker-input" data-target="#reservationdate">
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-
-                  </div>
+                  
+                  <Search />
                     <!-- start form created -->
-                              <div v-if="FormCreated" class="col-md-12">
-                                <div class="card card-primary">
-                    <div class="card-header">
-                    <h3 class="card-title">Information Axis</h3>
-                    </div>
-
-                    <form @submit.prevent="created()">
-                    <div class="row">
-                      <div class="col-md-6">
-                            <div class="card-body">
-                                  <div class="form-group">
-                                      <label for="exampleInputEmail1">Email address</label>
-                                      <input v-model="axis.email" name="axis.email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                                  </div>
-                                  <div class="form-group">
-                                      <label for="exampleInputEmail1">Phone</label>
-                                      <input v-model="axis.phone" name="axis.phone" type="text" class="form-control" id="exampleInputEmail1" placeholder="Phone">
-                                  </div>
-                                  <div class="form-group">
-                                      <label for="exampleInputEmail1">Adresse</label>
-                                      <textarea v-model="axis.address" name="axis.address" type="text" class="form-control" id="exampleInputEmail1" placeholder="Adresse"></textarea>
-                                      </div>
-                                  <div class="form-group">
-                                      <label for="exampleInputEmail1">Description Agence</label>
-                                      <textarea v-model="axis.description_agency" name="axis.description_agency" type="text" class="form-control" id="exampleInputEmail1" placeholder="Description Agence"></textarea>
-                                  </div>
-                                  <div class="form-group">
-                                      <label for="exampleInputEmail1">Localisation</label>
-                                      <input v-model="axis.localisation" name="axis.localisation" type="text" class="form-control" id="exampleInputEmail1" placeholder="Localisation ( URL )">
-                                  </div>
-                                  <div class="form-group">
-                                      <label for="exampleInputPassword1">Social</label>
-                                      <input v-model="axis.social" name="axis.social" type="text" class="form-control" id="exampleInputPassword1" placeholder="Social">
-                                  </div>
-                            </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="card-body">
-                              <div class="form-group">
-                                    <label for="exampleInputFile">Logo</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input @change="onChangeLogo" name="axis.logo" type="file" class="custom-file-input" id="exampleInputFile">
-                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                        </div>
-                                    </div>
-                              </div>
-                              <div class="form-group">
-                                    <label for="exampleInputFile">Logo Carousel</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input @change="onChangePhotoCarousel" name="axis.photo_carousel" type="file" class="custom-file-input" id="exampleInputFile">
-                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                        </div>
-                                    </div>
-                              </div>
-                              <div class="form-group">
-                                    <label for="exampleInputFile">Photo Agence</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input @change="onChangePhotoAgency" name="axis.photo_agency" type="file" class="custom-file-input" id="exampleInputFile">
-                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                        </div>
-                                    </div>
-                              </div>
-                          </div>
-                      </div>
-                    </div>
-
-                    <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Created</button>
-                    <button type="button" @click="buttoncacherformecreated()" class="btn btn-danger">Remove</button>
-                    </div>
-                    </form>
-
-                    </div>
-                              </div>
+                              <FormCreated :FormCreated="FormCreated "/>
                     <!-- end form created -->
-                              <div v-if="FormEdition" class="col-md-12">
-                    <!-- start form edition -->
-                                <div class="card card-primary">
-                    <div class="card-header">
-                    <h3 class="card-title">Information Axis</h3>
-                    </div>
-
-
-
-                    <form @submit.prevent="update(axis.id)">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="card-body">
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input v-model="axis.email" name="axis.email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">Phone</label>
-                    <input v-model="axis.phone" name="axis.phone" type="text" class="form-control" id="exampleInputEmail1" placeholder="Phone">
-                    </div>
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">Adresse</label>
-                    <textarea v-model="axis.address" name="axis.address" type="text" class="form-control" id="exampleInputEmail1" placeholder="Adresse"></textarea>
-                    </div>
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">Description Agence</label>
-                    <textarea v-model="axis.description_agency" name="axis.description_agency" type="text" class="form-control" id="exampleInputEmail1" placeholder="Description Agence"></textarea>
-                    </div>
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">Localisation</label>
-                    <input v-model="axis.localisation" name="axis.localisation" type="text" class="form-control" id="exampleInputEmail1" placeholder="Localisation ( URL )">
-                    </div>
-                    <div class="form-group">
-                    <label for="exampleInputPassword1">Social</label>
-                    <input v-model="axis.social" name="axis.social" type="text" class="form-control" id="exampleInputPassword1" placeholder="Social">
-                    </div>
-                    </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="card-body">
-                    <div class="form-group">
-                    <label for="exampleInputFile">Logo</label>
-                    <div class="input-group">
-                    <div class="custom-file">
-                    <input @change="onChangeLogo" name="axis.logo" type="file" class="custom-file-input" id="exampleInputFile">
-                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                    </div>
-                    <div class="input-group-append">
-                    <span class="input-group-text">Upload</span>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="form-group">
-                    <label for="exampleInputFile">Logo Carousel</label>
-                    <div class="input-group">
-                    <div class="custom-file">
-                    <input @change="onChangePhotoCarousel" name="axis.photo_carousel" type="file" class="custom-file-input" id="exampleInputFile">
-                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                    </div>
-                    <div class="input-group-append">
-                    <span class="input-group-text">Upload</span>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="form-group">
-                    <label for="exampleInputFile">Photo Agence</label>
-                    <div class="input-group">
-                    <div class="custom-file">
-                    <input @change="onChangePhotoAgency" name="axis.photo_agency" type="file" class="custom-file-input" id="exampleInputFile">
-                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                    </div>
-                    <div class="input-group-append">
-                    <span class="input-group-text">Upload</span>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                      </div>
-                    </div>
-
-                    <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <button type="button" @click="buttoncacherformedition()" class="btn btn-danger">Remove</button>
-                    </div>
-                    </form>
-                    </div>
-                    <!-- end form edition -->
-                              </div>
+                              
+                              <FormUpdated :FormEdition="FormEdition" :axis="axis" />
                               <!-- start liste table -->
-                              <div v-if="TableListe" class="col-12">
-                    <div class="card">
-                    <div class="card-header">
-                    <h3 class="card-title">Table Liste</h3>
-                    <div class="card-tools">
-                    <!--<div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="filterGet" v-model="Search" class="form-control float-right" placeholder="Search">
-                    
-                    <div class="input-group-append">
-                    <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                    </button>
-                    </div>
-                    </div>-->
-                    </div>
-                    </div>
-
-                    <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
-                    <thead>
-                    <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Description</th>
-                    <th>Localisation</th>
-                    <th>Social</th>
-                    <th>Logo</th>
-                    <th>Photo Carousel</th>
-                    <th>Photo Agence</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(axise, index) in axiss" v-bind:key="axise.id">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ axise.email.substr(0, 10) }}...</td>
-                    <td>{{ axise.phone.substr(0, 10) }}...</td>
-                    <td>{{ axise.address.substr(0, 10) }}...</td>
-                    <td>{{ axise.description_agency.substr(0, 10) }}...</td>
-                    <td v-html="axise.localisation"></td>
-                    <td>{{ axise.social.substr(0, 10) }}...</td>
-                    <td><img :src="$store.state.UrlBack+axise.logo" alt="" width="100%"></td>
-                    <td><img :src="$store.state.UrlBack+axise.photo_carousel" alt="" width="100%"></td>
-                    <td><img :src="$store.state.UrlBack+axise.photo_agency" alt="" width="100%"></td>
-                    <td><button @click="edit(axise.id)" class="btn btn-success"><i class="fa fa-pencil-square"></i></button></td>
-                    <td><button @click="deletee(axise.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                    </tr>
-                    </tbody>
-                    <!--<Pagination :data="laravelData" @pagination-change-page="getResults" />-->
-                    </table>
-                    </div>
-
-                    </div>
-
-                    </div>
+                              <TableListe :axiss="axiss" :TableListe="TableListe" @deletee="deletee($event)" @edit="edit($event)" />
                               <!-- end liste table -->
 
 
 
                               <!-- start liste table trashed -->
-                              <div v-if="TableTrashed" class="col-12">
-                    <div class="card">
-                    <div class="card-header">
-                    <h3 class="card-title">Table Liste Trashed</h3>
-                    <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                    <div class="input-group-append">
-                    <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                    </button>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-
-                    <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
-                    <thead>
-                    <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Description</th>
-                    <th>Localisation</th>
-                    <th>Social</th>
-                    <th>Logo</th>
-                    <th>Photo Carousel</th>
-                    <th>Photo Agence</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(axise, index) in axissTrashed" v-bind:key="axise.id">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ axise.email.substr(0, 10) }}...</td>
-                    <td>{{ axise.phone.substr(0, 10) }}...</td>
-                    <td>{{ axise.address.substr(0, 10) }}...</td>
-                    <td>{{ axise.description_agency.substr(0, 10) }}...</td>
-                    <td>{{ axise.localisation.substr(0, 10) }}...</td>
-                    <td>{{ axise.social.substr(0, 10) }}...</td>
-                    <td><img :src="$store.state.UrlBack+axise.logo" alt="" width="100%"></td>
-                    <td><img :src="$store.state.UrlBack+axise.photo_carousel" alt="" width="100%"></td>
-                    <td><img :src="$store.state.UrlBack+axise.photo_agency" alt="" width="100%"></td>
-                    <td><button @click="restore(axise.id)" class="btn btn-success"><i class="fa fa-recycle" aria-hidden="true"></i></button></td>
-                    <td><button @click="forced(axise.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                    </tr>
-                    </tbody>
-                    <!--<Pagination :data="laravelData" @pagination-change-page="getResults" />-->
-                    </table>
-                    </div>
-
-                    </div>
-
-                    </div>
+                              
+                    <TableListeTrashed :axissTrashed="axissTrashed" :TableTrashed="TableTrashed"/>
                               <!-- end liste table trashed -->
 
 
@@ -458,6 +70,12 @@ import AdminNav from './TemplateAdmin/AdminNav.vue'
 import AdminAsideTop from './TemplateAdmin/AdminAsideTop.vue'
 import AdminAsideBottom from './TemplateAdmin/AdminAsideBottom.vue'
 import AdminFooter from './TemplateAdmin/AdminFooter.vue'
+import TableListe from './Axis/TableListe.vue'
+import TableListeTrashed from './Axis/TableListeTrashed.vue'
+import FormCreated from './Axis/FormCreated.vue'
+import FormUpdated from './Axis/FormUpdated.vue'
+import Search from './Axis/Search.vue'
+import HeaderAdmin from './Axis/HeaderAdmin.vue'
 import axios from 'axios'
 
 export default {
@@ -470,6 +88,12 @@ export default {
     AdminAsideTop,
     AdminAsideBottom,
     AdminFooter,
+    TableListe,
+    TableListeTrashed,
+    FormCreated,
+    FormUpdated,
+    Search,
+    HeaderAdmin
     //Pagination
   },
   data() {
@@ -591,7 +215,7 @@ export default {
     buttonshowtrached() {
       this.trashed()
       this.TableTrashed = !this.TableTrashed
-      this.TableListe = !this.TableListe
+      this.TableListe = false
       this.FormCreated = false
     },
     // function affiche form created
