@@ -23,7 +23,7 @@
 
 
 export default {
-  name: 'TableListe',
+  name: 'HeaderAdmin',
   props: [
      
   ],
@@ -31,7 +31,9 @@ export default {
 
   },
   data() {
-
+    return {
+        //data here
+    }
   },
     watch: {
     },

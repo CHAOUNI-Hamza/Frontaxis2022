@@ -54,7 +54,7 @@ import AdminAsideTop from './TemplateAdmin/AdminAsideTop.vue'
 import AdminAsideBottom from './TemplateAdmin/AdminAsideBottom.vue'
 import AdminFooter from './TemplateAdmin/AdminFooter.vue'
 export default {
-  name: 'HelloWorld',
+  name: 'Client',
   props: {
     msg: String
   },

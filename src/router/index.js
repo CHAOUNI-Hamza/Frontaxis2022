@@ -8,6 +8,7 @@ import Companie from '../components/BackComponents/Companie.vue'
 import Contact from '../components/BackComponents/Contact.vue'
 import Produit from '../components/BackComponents/Produit.vue'
 import Service from '../components/BackComponents/Service.vue'
+import Dashboard from '../components/BackComponents/Dashboard.vue'
 import store from '@/store';
 
 const routes = [
@@ -118,6 +119,20 @@ const routes = [
     path: '/admin/service',
     name: 'Service',
     component: Service,
+    beforeEnter: (to, from, next) => {
+      
+      if(!store.getters['auth/authentication']) {
+        return next({ name: 'Login' })
+      }
+
+      next()
+
+    }
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
     beforeEnter: (to, from, next) => {
       
       if(!store.getters['auth/authentication']) {

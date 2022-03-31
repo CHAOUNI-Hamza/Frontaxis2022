@@ -53,7 +53,7 @@
 <script>
 import { mapActions } from 'vuex';
 export default {
-  name: 'HelloWorld',
+  name: 'Login',
   props: {
     msg: String
   },
@@ -70,7 +70,7 @@ export default {
           'login' : 'auth/login'
       }),
       submit() {
-          this.login(this.user).then(() => this.$router.replace({name: 'Admin'}));
+          this.login(this.user).then(() => this.$router.replace({name: 'Dashboard'}));
       }
   }
 }

@@ -95,7 +95,7 @@
 
 
 export default {
-  name: 'TableListe',
+  name: 'FormUpdated',
   props: [
       'FormEdition', 'axis'
   ],
@@ -103,11 +103,28 @@ export default {
 
   },
   data() {
-
+    return {
+        //data here
+    }
   },
     watch: {
     },
   methods: {
+    update(id) {
+      this.$emit('update', id)
+    },
+    onChangeLogo(e) {
+      this.$emit('onChangeLogo', e)
+    },
+    onChangePhotoCarousel(e) {
+      this.$emit('onChangePhotoCarousel', e)
+    },
+    onChangePhotoAgency(e) {
+      this.$emit('onChangePhotoAgency', e)
+    },
+    buttoncacherformedition() {
+      this.$emit('buttoncacherformedition')
+    }
     
   },
   mounted() {

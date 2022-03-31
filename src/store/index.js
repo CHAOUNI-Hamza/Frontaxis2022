@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
-import auth from './auth/index';
+import auth from './auth';
+import axis from './axis';
 
 export default createStore({
   state: {
@@ -10,6 +11,7 @@ export default createStore({
   actions: {
   },
   modules: {
-    auth
+    auth,
+    axis
   }
 })

@@ -31,7 +31,7 @@
                     <th>Photo Agence</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="axissTrashed.length">
                     <tr v-for="(axise, index) in axissTrashed" v-bind:key="axise.id">
                     <td>{{ index + 1 }}</td>
                     <td>{{ axise.email.substr(0, 10) }}...</td>
@@ -47,6 +47,13 @@
                     <td><button @click="forced(axise.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                     </tr>
                     </tbody>
+                    <tbody v-else>
+                      <tr>
+                        <td>
+                          Lodding ...
+                        </td>
+                      </tr>
+                    </tbody>
                     <!--<Pagination :data="laravelData" @pagination-change-page="getResults" />-->
                     </table>
                     </div>
@@ -61,7 +68,7 @@
 
 
 export default {
-  name: 'TableListe',
+  name: 'TableListeTrashed',
   props: [
       'axissTrashed', 'TableTrashed'
   ],
@@ -69,12 +76,19 @@ export default {
 
   },
   data() {
-
+    return {
+        //data here
+    }
   },
     watch: {
     },
   methods: {
-    
+    restore(id) {
+      this.$emit('restore', id)
+    },
+    forced(id) {
+      this.$emit('forced', id)
+    }
   },
   mounted() {
     

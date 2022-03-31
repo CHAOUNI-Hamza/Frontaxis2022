@@ -1,71 +1,61 @@
 <template>
 <div class="wrapper">
 
-  <AdminNav />
+    <AdminNav />
 
-  <AdminAsideTop />
+    <AdminAsideTop />
+
     <div class="content-wrapper">
-
         <HeaderAdmin />
-        
-        
-        <div class="content">
-          <div class="container-fluid">
+        <div class="content"> 
+            <div class="container-fluid">
                 <div class="row">
-                  <div class="row">
-                    <div class="col-md-3" v-if="!TableTrashed">
-                    <!-- button affiche trashed -->
-                      <button @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
-                  </div>
-                  <div class="col-md-3" v-if="TableTrashed">
-                    <!-- button remove trashed -->
-                      <button @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached   <i class="fa fa-minus" aria-hidden="true"></i></button>
-                  </div>
-                  <div class="col-md-3" v-if="!FormCreated && !TableTrashed && !FormEdition">
-                    <!-- button created -->
-                      <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
-                  </div>
-                  <div class="col-md-3">
-                    <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search   <i class="fa fa-refresh" aria-hidden="true"></i></button>
-                  </div>
-                  </div>
-                  
-                  <Search />
+                    <div class="row">
+                        <div class="col-md-3" v-if="!TableTrashed">
+                            <!-- button affiche trashed -->
+                            <button @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-md-3" v-if="TableTrashed">
+                            <!-- button remove trashed -->
+                            <button @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached   <i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-md-3" v-if="!FormCreated && !TableTrashed && !FormEdition">
+                            <!-- button created -->
+                            <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-md-3">
+                            <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search   <i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- start form search -->
+                    <Search :filterGet="filterGet" />
+
                     <!-- start form created -->
-                              <FormCreated :FormCreated="FormCreated "/>
-                    <!-- end form created -->
-                              
-                              <FormUpdated :FormEdition="FormEdition" :axis="axis" />
-                              <!-- start liste table -->
-                              <TableListe :axiss="axiss" :TableListe="TableListe" @deletee="deletee($event)" @edit="edit($event)" />
-                              <!-- end liste table -->
-
-
-
-                              <!-- start liste table trashed -->
-                              
-                    <TableListeTrashed :axissTrashed="axissTrashed" :TableTrashed="TableTrashed"/>
-                              <!-- end liste table trashed -->
-
-
-
-
+                    <FormCreated :FormCreated="FormCreated" :axis="axis" @created="created()" @onChangeLogo="onChangeLogo($event)" @onChangePhotoCarousel="onChangePhotoCarousel($event)" @onChangePhotoAgency="onChangePhotoAgency($event)" @buttoncacherformecreated="buttoncacherformecreated()" />
+                    
+                    <!-- end form updated -->                           
+                    <FormUpdated :FormEdition="FormEdition" :axis="axis" @update="update($event)" @onChangeLogo="onChangeLogo($event)" @onChangePhotoCarousel="onChangePhotoCarousel($event)" @onChangePhotoAgency="onChangePhotoAgency($event)" @buttoncacherformedition="buttoncacherformedition()" />
+                    
+                    <!-- start liste table -->
+                    <TableListe :axiss="counter" :TableListe="TableListe" @deletee="deletee($event)" @edit="edit($event)" @get="get()" />
+                    
+                    <!-- start liste table trashed -->                      
+                    <TableListeTrashed :axissTrashed="axissTrashed" :TableTrashed="TableTrashed" @restore="restore($event)" @forced="forced($event)" />
 
                 </div>
-          </div>
+            </div>
         </div>
     </div>
-    <!-- /.content-wrapper -->
-  <!-- Control Sidebar -->
-  <AdminAsideBottom />
-  <!-- /.control-sidebar -->
-  <!-- Main Footer -->
-  <AdminFooter />
+
+    <AdminAsideBottom />
+
+    <AdminFooter />
+
 </div>
 </template>
 
 <script>
-//import Pagination from 'laravel-vue-pagination'
 import AdminNav from './TemplateAdmin/AdminNav.vue'
 import AdminAsideTop from './TemplateAdmin/AdminAsideTop.vue'
 import AdminAsideBottom from './TemplateAdmin/AdminAsideBottom.vue'
@@ -78,10 +68,12 @@ import Search from './Axis/Search.vue'
 import HeaderAdmin from './Axis/HeaderAdmin.vue'
 import axios from 'axios'
 
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  name: 'HelloWorld',
+  name: 'Axis',
   props: {
-    msg: String
+    
   },
   components: {
     AdminNav,
@@ -94,7 +86,6 @@ export default {
     FormUpdated,
     Search,
     HeaderAdmin
-    //Pagination
   },
   data() {
       return {
@@ -146,16 +137,6 @@ export default {
                 },
                 deep: true
             }
-
-
-     /* Search: function(newQ, old) {
-        if( newQ === "" ) {
-          
-          this.get()
-        } else {
-          this.get()
-        }
-      }*/
     },
   methods: {
     // function pour vider les input de recherche
@@ -224,17 +205,13 @@ export default {
     },
     // les functions de change images
     onChangeLogo(e) {
-      console.log(e.target.files[0])
       this.axis.logo = e.target.files[0]
     },
     onChangePhotoCarousel(e) {
-      console.log(e.target.files[0])
       this.axis.photo_carousel = e.target.files[0]
     },
     onChangePhotoAgency(e) {
-      console.log(e.target.files[0])
       this.axis.photo_agency = e.target.files[0]
-      console.log(this.axis.photo_agency)
     },
     // function created new
     async created() {
@@ -249,12 +226,24 @@ export default {
           formData.append('phone', this.axis.phone);
           formData.append('localisation', this.axis.localisation);
           formData.append('social', this.axis.social);
-console.log(formData);
+          
           const response = await axios.post('api/v1/company/store', formData)
 
           this.FormCreated = !this.FormCreated
           this.TableListe = true
           this.get()
+
+          this.axis = {
+          logo:'',
+          photo_carousel:'',
+          description_agency:'',
+          photo_agency:'',
+          address:'',
+          email:'',
+          phone:'',
+          localisation:'',
+          social:'',
+        }
 
          Swal.fire(
   'Good job!',
@@ -263,44 +252,28 @@ console.log(formData);
 )
 
         } catch (error) {
-            console.log(error);
+            console.log(error); 
         }
     },
     // get
-    async get() {
-      try {
-        console.log(this.filterGet)
-        /*this.filterGet = {
-              filter: '',
-              sortby: 'id',
-              orderby: 'ASC',
-              filtervalue: '',
-              paginate: '10',
-              created_at: '',
-              updated_at: '',
-              expand: '',
-        }*/
-        const response = await axios.get('api/v1/company/index?filter='+ this.filterGet.filter +'&sortby='+ this.filterGet.sortby +'&orderby='+ this.filterGet.orderby +'&filtervalue='+ this.filterGet.filtervalue +'&paginate='+ this.filterGet.paginate +'&created_at='+ this.filterGet.created_at +'&updated_at='+ this.filterGet.updated_at +'&expand='+ this.filterGet.expand)
-        this.axiss = response.data.data
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    ...mapActions({
+          'get_' : 'axis/get'
+      }),
+      get() {
+          this.get_(this.filterGet);
+      },
     // trashed
-    async trashed() {
-      try {
-        const response = await axios.get('api/v1/company/trashed')
-        this.axissTrashed = response.data.data
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    ...mapActions({
+          'getTrashed' : 'axis/getTrashed'
+      }),
+      getTrashed() {
+          this.getTrashed(this.filterGet);
+      },
     // edit
     async edit(id) {
       try {
         this.FormEdition = !this.FormEdition
         const response = await axios.get('api/v1/company/index?expand='+ id)
-        console.log(response.data.data)
         this.axis = {
           id: response.data.data.id,
           logo: response.data.data.logo,
@@ -415,6 +388,11 @@ console.log(formData);
   },
   mounted() {
     this.get()
+  },
+  computed: {  
+    counter() {
+            return this.$store.getters['axis/getAxiss'];
+        }
   }
 }
 </script>

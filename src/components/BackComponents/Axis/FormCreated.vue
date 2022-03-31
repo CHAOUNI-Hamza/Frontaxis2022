@@ -92,20 +92,36 @@
 
 
 export default {
-  name: 'TableListe',
+  name: 'FormCreated',
   props: [
-      'FormCreated'
+      'FormCreated', 'axis'
   ],
   components: {
 
   },
   data() {
-
+      return {
+        //data here
+    }
   },
     watch: {
     },
   methods: {
-    
+      created() {
+          this.$emit('created')
+      },
+    onChangeLogo(e) {
+      this.$emit('onChangeLogo', e)
+    },
+    onChangePhotoCarousel(e) {
+      this.$emit('onChangePhotoCarousel', e)
+    },
+    onChangePhotoAgency(e) {
+      this.$emit('onChangePhotoAgency', e)
+    },
+    buttoncacherformecreated() {
+        this.$emit('buttoncacherformecreated')
+    }
   },
   mounted() {
     

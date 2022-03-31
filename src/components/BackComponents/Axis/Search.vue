@@ -98,14 +98,17 @@
 
 
 export default {
-  name: 'TableListe',
+  name: 'Search',
   props: [
-     
+     'filterGet'
   ],
   components: {
 
   },
   data() {
+    return {
+        //data here
+    }
 
   },
     watch: {

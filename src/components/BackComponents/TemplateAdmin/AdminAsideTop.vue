@@ -36,13 +36,13 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a class="nav-link active">
+            <router-link :to="{ name: 'Dashboard'}" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
                 
               </p>
-            </a>
+            </router-link>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link :to="{ name: 'Axis'}" class="nav-link">
@@ -130,6 +130,8 @@ export default {
 </script>
 
 <style scoped>
-
-
+.router-link-active {
+  background-color: #007bff;
+    color: #fff;
+}
 </style>

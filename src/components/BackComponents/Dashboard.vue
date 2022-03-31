@@ -32,7 +32,7 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-            Axis
+            Dashboard
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@ import AdminAsideTop from './TemplateAdmin/AdminAsideTop.vue'
 import AdminAsideBottom from './TemplateAdmin/AdminAsideBottom.vue'
 import AdminFooter from './TemplateAdmin/AdminFooter.vue'
 export default {
-  name: 'Produit',
+  name: 'Dashboard',
   props: {
     msg: String
   },
