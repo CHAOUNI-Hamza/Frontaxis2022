@@ -55,8 +55,18 @@
                               </td>
                             </tr>
                           </tbody>
+
+
                       </table>
                   </div>
+
+<div class="card-footer clearfix" v-if="axiss.length">
+<ul class="pagination pagination-sm m-0 float-right">
+<li class="page-item"><button @click="filterGet.page = '1'" class="page-link" href="#">»</button></li>
+<li class="page-item" v-for="index  in last_page" v-bind:key="index "><button @click="filterGet.page = index" class="page-link">{{ index  }}</button></li>
+<li class="page-item"><button @click="filterGet.page = last_page" class="page-link" href="#">»</button></li>
+</ul>
+</div>
             </div>
       </div>
 </template>
@@ -67,13 +77,14 @@
 export default {
   name: 'TableListe',
   props: [
-      'axiss', 'TableListe'
+      'axiss', 'TableListe', 'last_page', 'filterGet'
   ],
   components: {
+    
   },
   data() {
     return {
-        //data here
+        
     }
   },
     watch: {
@@ -91,7 +102,9 @@ export default {
     
   },
   mounted() {
-    
+    console.log(this.filterGet.page)
+    console.log('hhhhhhhhhhhhhhhhh')
+    console.log(this.last_page)
   }
 }
 </script>

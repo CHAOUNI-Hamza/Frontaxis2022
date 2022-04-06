@@ -38,10 +38,10 @@
                     <FormUpdated :FormEdition="FormEdition" :axis="axis" @update="update($event)" @onChangeLogo="onChangeLogo($event)" @onChangePhotoCarousel="onChangePhotoCarousel($event)" @onChangePhotoAgency="onChangePhotoAgency($event)" @buttoncacherformedition="buttoncacherformedition()" />
                     
                     <!-- start liste table -->
-                    <TableListe :axiss="counter" :TableListe="TableListe" @deletee="deletee($event)" @edit="edit($event)" @get="get()" />
+                    <TableListe :filterGet="filterGet" :last_page="last_page" :axiss="counter" :TableListe="TableListe" @deletee="deletee($event)" @edit="edit($event)" @get="get()" />
                     
                     <!-- start liste table trashed -->                      
-                    <TableListeTrashed :axissTrashed="axissTrashed" :TableTrashed="TableTrashed" @restore="restore($event)" @forced="forced($event)" />
+                    <TableListeTrashed :axissTrashed="trasheed" :last_page_trashed="last_page_trashed" :TableTrashed="TableTrashed" @restore="restore($event)" @forced="forced($event)" />
 
                 </div>
             </div>
@@ -125,7 +125,8 @@ export default {
               updated_at: '',
               expand: '',
               date_from: '',
-              date_to: ''
+              date_to: '',
+              page: 1
         }
       }
   },
@@ -151,7 +152,8 @@ export default {
               updated_at: '',
               expand: '',
               date_from: '',
-              date_to: ''
+              date_to: '',
+              page: 1
         }
     },
     // function cacher form edition
@@ -191,11 +193,12 @@ export default {
       this.FormEdition = false
       this.FormTrashed = false
       this.TableListe = true
+      this.get()
     },
     // function affiche table trashed
     buttonshowtrached() {
-      this.trashed()
-      this.TableTrashed = !this.TableTrashed
+      this.getTrashed()
+      this.TableTrashed = true
       this.TableListe = false
       this.FormCreated = false
     },
@@ -264,10 +267,10 @@ export default {
       },
     // trashed
     ...mapActions({
-          'getTrashed' : 'axis/getTrashed'
+          'getTrashed_' : 'axis/trashed'
       }),
       getTrashed() {
-          this.getTrashed(this.filterGet);
+          this.getTrashed_(this.filterGet);
       },
     // edit
     async edit(id) {
@@ -323,68 +326,35 @@ export default {
         }
     },
     // delete
-    async deletee(id) {
-      
-      try {
-
-          const response = await axios.delete('api/v1/company/destroy/'+ id)
-
+    ...mapActions({
+          'delete_' : 'axis/deletee'
+      }),
+      deletee(id) {
+          this.delete_(id);
           this.FormEdition = this.FormEdition
           this.TableListe = true
           this.get()
-
-         Swal.fire(
-  'Good job!',
-  '',
-  'success'
-)
-
-        } catch (error) {
-            console.log(error);
-        }
-    },
+      },
     // restore
-    async restore(id) {
-      
-      try {
-
-          const response = await axios.post('api/v1/company/restore/'+ id)
-
-          this.TableListe = true
-          this.TableTrashed = false
-          this.get()
-
-         Swal.fire(
-  'Good job!',
-  '',
-  'success'
-)
-
-        } catch (error) {
-            console.log(error);
-        }
+    ...mapActions({
+      'restore_' : 'axis/restore'
+    }),
+    restore(id) {
+      this.restore_(id)
+      this.TableListe = true
+      this.TableTrashed = false
+      this.get()
     },
     // forced
-    async forced(id) {
-      
-      try {
-
-          const response = await axios.post('api/v1/company/forced/'+ id)
-
-          this.TableListe = false
+    ...mapActions({
+      'forced_' : 'axis/forced'
+    }),
+    forced(id) {
+      this.forced_(id)
+      this.TableListe = false
           this.TableTrashed = true
-          this.trashed()
-
-         Swal.fire(
-  'Good job!',
-  '',
-  'success'
-)
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
+          this.getTrashed()
+    },
   },
   mounted() {
     this.get()
@@ -392,6 +362,15 @@ export default {
   computed: {  
     counter() {
             return this.$store.getters['axis/getAxiss'];
+        },
+        trasheed() {
+            return this.$store.getters['axis/getTrashed'];
+        },
+        last_page() {
+          return this.$store.getters['axis/getLastPage'];
+        },
+        last_page_trashed() {
+          return this.$store.getters['axis/getLastPageTrashed'];
         }
   }
 }

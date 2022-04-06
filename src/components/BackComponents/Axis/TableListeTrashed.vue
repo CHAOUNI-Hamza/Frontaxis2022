@@ -57,6 +57,13 @@
                     <!--<Pagination :data="laravelData" @pagination-change-page="getResults" />-->
                     </table>
                     </div>
+                    <div class="card-footer clearfix" v-if="axissTrashed.length">
+<ul class="pagination pagination-sm m-0 float-right">
+<li class="page-item"><button @click="filterGet.page = '1'" class="page-link" href="#">»</button></li>
+<li class="page-item" v-for="index  in last_page_trashed" v-bind:key="index "><button @click="filterGet.page = index" class="page-link">{{ index  }}</button></li>
+<li class="page-item"><button @click="filterGet.page = last_page_trashed" class="page-link" href="#">»</button></li>
+</ul>
+</div>
 
                     </div>
 
@@ -70,7 +77,7 @@
 export default {
   name: 'TableListeTrashed',
   props: [
-      'axissTrashed', 'TableTrashed'
+      'axissTrashed', 'TableTrashed', 'last_page_trashed'
   ],
   components: {
 
@@ -88,6 +95,9 @@ export default {
     },
     forced(id) {
       this.$emit('forced', id)
+    },
+    getTrashed() {
+      this.$emit('getTrashed')
     }
   },
   mounted() {
