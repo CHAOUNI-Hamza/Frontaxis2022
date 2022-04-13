@@ -27,7 +27,12 @@ export default {
             const response = await axios.post('api/v1/admin/login', credentials)
             return dispatch('attempt', response.data.access_token)
         } catch (error) {
-            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Please verify your email and password',
+                /*text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'*/
+              })
         }
     },
     async attempt({commit, state}, token) {

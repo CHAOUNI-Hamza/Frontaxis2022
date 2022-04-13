@@ -2,18 +2,18 @@ import axios from 'axios';
 export default {
   namespaced: true,
   state: {
-    axiss : [],
-    axissTrashed: [],
+    clientss : [],
+    clientssTrashed: [],
     last_page: [],
     last_page_trashed: [],
     id_update: 1
   },
   mutations: {
-    setAxiss(state, data) {
-      state.axiss = data
+    setClientss(state, data) {
+      state.clientss = data
     },
     setTrashed(state, data) {
-      state.axissTrashed = data
+      state.clientssTrashed = data
     },
     setLastPage(state, data) {
       state.last_page = data
@@ -23,11 +23,11 @@ export default {
     }
   },
   getters: {
-    getAxiss(state) {
-      return state.axiss
+    getClientss(state) {
+      return state.clientss
     },
     getTrashed(state) {
-      return state.axissTrashed
+      return state.clientssTrashed
     },
     getLastPage(state) {
       return state.last_page
@@ -40,7 +40,7 @@ export default {
     // get
     async get({ commit, state }, filter) {
      try {
-        const response = await axios.get('api/v1/company/index?filter='
+        const response = await axios.get('api/v1/clients/index?filter='
         + filter.filter +'&sortby='
         + filter.sortby +'&orderby='
         + filter.orderby +'&filtervalue='
@@ -52,7 +52,7 @@ export default {
         + filter.page+'&date_to='
         + filter.date_to+'&date_from='
         + filter.date_from)
-        commit('setAxiss', response.data.data)
+        commit('setClientss', response.data.data)
         commit('setLastPage', response.data.meta.last_page)
       } catch (error) {
         Swal.fire({
@@ -64,7 +64,7 @@ export default {
     // trashed
     async trashed({ commit, state }, filter) {
       try {
-        const response = await axios.get('api/v1/company/trashed?filter='
+        const response = await axios.get('api/v1/clients/trashed?filter='
         + filter.filter +'&sortby='
         + filter.sortby +'&orderby='
         + filter.orderby +'&filtervalue='
@@ -108,7 +108,7 @@ export default {
           }
         })
 
-        const response = await axios.delete('api/v1/company/destroy/'+ id)
+        const response = await axios.delete('api/v1/clients/destroy/'+ id)
           
         } catch (error) {
           Swal.fire({
@@ -121,7 +121,7 @@ export default {
     async restore(_, id) {     
       try {
 
-          const response = await axios.post('api/v1/company/restore/'+ id)
+          const response = await axios.post('api/v1/clients/restore/'+ id)
 
          Swal.fire(
               'Restore',
@@ -159,7 +159,7 @@ export default {
           }
         })
 
-        const response = await axios.post('api/v1/company/forced/'+ id)
+        const response = await axios.post('api/v1/clients/forced/'+ id)
 
 
         } catch (error) {
@@ -170,19 +170,13 @@ export default {
         }
     },
     // created
-    async created(_, axis) {
+    async created(_, clients) {
       try {
         let formData = new FormData();
-        formData.append('logo', axis.logo);
-        formData.append('photo_carousel', axis.photo_carousel);
-        formData.append('description_agency', axis.description_agency);
-        formData.append('photo_agency', axis.photo_agency);
-        formData.append('address', axis.address);
-        formData.append('email', axis.email);
-        formData.append('phone', axis.phone);
-        formData.append('localisation', axis.localisation);
-        formData.append('social', axis.social);     
-        const response = await axios.post('api/v1/company/store', formData)
+        formData.append('photo', clients.photo);
+        formData.append('name', clients.name);
+        
+        const response = await axios.post('api/v1/clients/store', formData)
         Swal.fire(
             'Created',
             '',

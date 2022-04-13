@@ -21,31 +21,17 @@
                           <thead>
                               <tr>
                                     <th>ID</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Address</th>
-                                    <th>Description</th>
-                                    <th>Localisation</th>
-                                    <th>Social</th>
+                                    <th>Name</th>
                                     <th>Logo</th>
-                                    <th>Photo Carousel</th>
-                                    <th>Photo Agence</th>
                               </tr>
                           </thead>
-                          <tbody v-if="axiss.length">
-                                <tr v-for="(axise, index) in axiss" v-bind:key="axise.id">
+                          <tbody v-if="clientss.length">
+                                <tr v-for="(clientse, index) in clientss" v-bind:key="clientse.id">
                                     <td>{{ index + 1 }}</td>
-                                    <td>{{ axise.email }}</td>
-                                    <td>{{ axise.phone }}</td>
-                                    <td>{{ axise.address }}...</td>
-                                    <td>{{ axise.description_agency }}...</td>
-                                    <td v-html="axise.localisation"></td>
-                                    <td>{{ axise.social }}...</td>
-                                    <td><button @click="modalimg($store.state.UrlBack+axise.logo)"><img :src="$store.state.UrlBack+axise.logo" alt="" width="100%"></button></td>
-                                    <td><button @click="modalimg($store.state.UrlBack+axise.logo)"><img :src="$store.state.UrlBack+axise.photo_carousel" alt="" width="100%"></button></td>
-                                    <td><button @click="modalimg($store.state.UrlBack+axise.logo)"><img :src="$store.state.UrlBack+axise.photo_agency" alt="" width="100%"></button></td>
-                                    <td><button @click="edit(axise.id)" class="btn btn-success"><i class="fa fa-pencil-square"></i></button></td>
-                                    <td><button @click="deleted(axise.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                                    <td>{{ clientse.name }}</td>
+                                    <td><button @click="modalimg($store.state.UrlBack+clientse.photo)"><img :src="$store.state.UrlBack+clientse.photo" alt="" width="100%"></button></td>
+                                    <td><button @click="edit(clientse.id)" class="btn btn-success"><i class="fa fa-pencil-square"></i></button></td>
+                                    <td><button @click="deleted(clientse.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                                 </tr>
                           </tbody>
                           <tbody v-else>
@@ -60,7 +46,7 @@
                       </table>
                   </div>
 
-<div class="card-footer clearfix" v-if="axiss.length">
+<div class="card-footer clearfix" v-if="clientss.length">
 <ul class="pagination pagination-sm m-0 float-right">
 <li class="page-item"><button @click="filterGet.page = '1'" class="page-link" href="#">»</button></li>
 <li class="page-item" v-for="index  in last_page" v-bind:key="index "><button @click="filterGet.page = index" class="page-link">{{ index  }}</button></li>
@@ -77,7 +63,7 @@
 export default {
   name: 'TableListe',
   props: [
-      'axiss', 'TableListe', 'last_page', 'filterGet'
+      'clientss', 'TableListe', 'last_page', 'filterGet'
   ],
   components: {
     
@@ -94,6 +80,7 @@ export default {
       this.$emit('deletee', id)
     },
     edit(id) {
+      console.log('hhhhhh')
       this.$emit('edit', id)
     },
     get() {

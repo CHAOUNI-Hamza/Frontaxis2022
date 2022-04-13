@@ -1,9 +1,9 @@
 <template>
 <div class="wrapper">
 
-    <AdminNav />
+        <AdminNav />
 
-    <AdminAsideTop />
+        <AdminAsideTop />
 
     <div class="content-wrapper">
         <HeaderAdmin />
@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-3" v-if="!TableTrashed">
                             <!-- button affiche trashed -->
-                            <button @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button ref="test" @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
                         </div>
                         <div class="col-md-3" v-if="TableTrashed">
                             <!-- button remove trashed -->
@@ -23,25 +23,56 @@
                             <!-- button created -->
                             <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" v-if="!TableTrashed">
                             <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search   <i class="fa fa-refresh" aria-hidden="true"></i></button>
                         </div>
                     </div>
 
                     <!-- start form search -->
-                    <Search :filterGet="filterGet" />
+                    <Search 
+                    :filterGet="filterGet"
+                    :TableTrashed="TableTrashed"
+                     />
 
                     <!-- start form created -->
-                    <FormCreated :FormCreated="FormCreated" :axis="axis" @created="created()" @onChangeLogo="onChangeLogo($event)" @onChangePhotoCarousel="onChangePhotoCarousel($event)" @onChangePhotoAgency="onChangePhotoAgency($event)" @buttoncacherformecreated="buttoncacherformecreated()" />
+                    <FormCreated 
+                        :FormCreated="FormCreated"
+                        :axis="axis" @created="created()"
+                        @onChangeLogo="onChangeLogo($event)"
+                        @onChangePhotoCarousel="onChangePhotoCarousel($event)"
+                        @onChangePhotoAgency="onChangePhotoAgency($event)"
+                        @buttoncacherformecreated="buttoncacherformecreated()"
+                    />
                     
                     <!-- end form updated -->                           
-                    <FormUpdated :FormEdition="FormEdition" :axis="axis" @update="update($event)" @onChangeLogo="onChangeLogo($event)" @onChangePhotoCarousel="onChangePhotoCarousel($event)" @onChangePhotoAgency="onChangePhotoAgency($event)" @buttoncacherformedition="buttoncacherformedition()" />
+                    <FormUpdated
+                        :FormEdition="FormEdition"
+                        :axis="axis" @update="update($event)"
+                        @onChangeLogo="onChangeLogo($event)"
+                        @onChangePhotoCarousel="onChangePhotoCarousel($event)"
+                        @onChangePhotoAgency="onChangePhotoAgency($event)"
+                        @buttoncacherformedition="buttoncacherformedition()"
+                    />
                     
                     <!-- start liste table -->
-                    <TableListe :filterGet="filterGet" :last_page="last_page" :axiss="counter" :TableListe="TableListe" @deletee="deletee($event)" @edit="edit($event)" @get="get()" />
+                    <TableListe
+                        :filterGet="filterGet"
+                        :last_page="last_page"
+                        :axiss="counter"
+                        :TableListe="TableListe"
+                        @deletee="deletee($event)"
+                        @edit="edit($event)"
+                        @get="get()"
+                    />
                     
                     <!-- start liste table trashed -->                      
-                    <TableListeTrashed :axissTrashed="trasheed" :last_page_trashed="last_page_trashed" :TableTrashed="TableTrashed" @restore="restore($event)" @forced="forced($event)" />
+                    <TableListeTrashed
+                        :axissTrashed="trasheed"
+                        :last_page_trashed="last_page_trashed"
+                        :TableTrashed="TableTrashed"
+                        @restore="restore($event)"
+                        @forced="forced($event)"
+                    />
 
                 </div>
             </div>
@@ -69,6 +100,8 @@ import HeaderAdmin from './Axis/HeaderAdmin.vue'
 import axios from 'axios'
 
 import { mapActions, mapGetters } from 'vuex'
+
+
 
 export default {
   name: 'Axis',
@@ -217,47 +250,27 @@ export default {
       this.axis.photo_agency = e.target.files[0]
     },
     // function created new
-    async created() {
-        try {
-          let formData = new FormData();
-          formData.append('logo', this.axis.logo);
-          formData.append('photo_carousel', this.axis.photo_carousel);
-          formData.append('description_agency', this.axis.description_agency);
-          formData.append('photo_agency', this.axis.photo_agency);
-          formData.append('address', this.axis.address);
-          formData.append('email', this.axis.email);
-          formData.append('phone', this.axis.phone);
-          formData.append('localisation', this.axis.localisation);
-          formData.append('social', this.axis.social);
-          
-          const response = await axios.post('api/v1/company/store', formData)
-
+    ...mapActions({
+          'created_' : 'axis/created'
+      }),
+      created() {
+          this.created_(this.axis);
           this.FormCreated = !this.FormCreated
-          this.TableListe = true
-          this.get()
+        this.TableListe = true
+        this.get()
 
-          this.axis = {
-          logo:'',
-          photo_carousel:'',
-          description_agency:'',
-          photo_agency:'',
-          address:'',
-          email:'',
-          phone:'',
-          localisation:'',
-          social:'',
-        }
-
-         Swal.fire(
-  'Good job!',
-  '',
-  'success'
-)
-
-        } catch (error) {
-            console.log(error); 
-        }
-    },
+        this.axis = {
+            logo:'',
+            photo_carousel:'',
+            description_agency:'',
+            photo_agency:'',
+            address:'',
+            email:'',
+            phone:'',
+            localisation:'',
+            social:'',
+          }
+      },
     // get
     ...mapActions({
           'get_' : 'axis/get'
@@ -290,41 +303,44 @@ export default {
           social: response.data.data.social,
         }
       } catch (error) {
-        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'No Data Found',
+        })
       }
     },
     // update
-    async update(id) {
-      
-      try {
-          let formData = new FormData();
-          formData.append('logo', this.axis.logo);
-          formData.append('photo_carousel', this.axis.photo_carousel);
-          formData.append('description_agency', this.axis.description_agency);
-          formData.append('photo_agency', this.axis.photo_agency);
-          formData.append('address', this.axis.address);
-          formData.append('email', this.axis.email);
-          formData.append('phone', this.axis.phone);
-          formData.append('localisation', this.axis.localisation);
-          formData.append('social', this.axis.social);
-          
+  async update(id) {
+    try {
+        let formData = new FormData();
+        formData.append('logo', this.axis.logo);
+        formData.append('photo_carousel', this.axis.photo_carousel);
+        formData.append('description_agency', this.axis.description_agency);
+        formData.append('photo_agency', this.axis.photo_agency);
+        formData.append('address', this.axis.address);
+        formData.append('email', this.axis.email);
+        formData.append('phone', this.axis.phone);
+        formData.append('localisation', this.axis.localisation);
+        formData.append('social', this.axis.social);
+        const response = await axios.post('api/v1/company/update/'+ id, formData)
 
-          const response = await axios.post('api/v1/company/update/'+ id, formData)
+        this.FormEdition = !this.FormEdition
+        this.TableListe = true
+        this.get()
 
-          this.FormEdition = !this.FormEdition
-          this.TableListe = true
-          this.get()
+       Swal.fire(
+        'Updated',
+        '',
+        'success'
+        )
 
-         Swal.fire(
-  'Good job!',
-  '',
-  'success'
-)
-
-        } catch (error) {
-            console.log(error);
-        }
-    },
+      } catch (error) {
+          Swal.fire({
+          icon: 'error',
+          title: 'No Data Found',
+        })
+      }
+  },
     // delete
     ...mapActions({
           'delete_' : 'axis/deletee'
@@ -360,7 +376,7 @@ export default {
     this.get()
   },
   computed: {  
-    counter() {
+        counter() {
             return this.$store.getters['axis/getAxiss'];
         },
         trasheed() {

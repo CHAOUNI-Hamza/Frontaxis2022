@@ -4,12 +4,7 @@
                       <div class="form-group">
                         <label>Filter by</label>
                         <select v-model="filterGet.filter" class="form-control">
-                        <option value="email">Email</option>
-                        <option value="phone">Phone</option>
-                        <option value="address">Adress</option>
-                        <option value="description_agency">Description</option>
-                        <option value="localisation">Localisation</option>
-                        <option value="social">Social</option>
+                        <option value="name">Name</option>
                         </select>
                       </div>
                     </div>

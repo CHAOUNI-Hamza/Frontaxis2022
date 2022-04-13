@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import auth from './auth';
 import axis from './axis';
+import clients from './clients';
 
 export default createStore({
   state: {
@@ -12,6 +13,7 @@ export default createStore({
   },
   modules: {
     auth,
-    axis
+    axis,
+    clients
   }
 })

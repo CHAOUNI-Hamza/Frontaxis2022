@@ -10,18 +10,25 @@
 						<img src="@/assets/logo.svg" alt="logo axis" width="50%">
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+					<div :class="{ error: v$.user.email.$errors.length }" class="wrap-input100 validate-input">
 						<input v-model="user.email" class="input100" type="text" name="email">
 						<span class="focus-input100" data-placeholder="Email"></span>
+						<div class="input-errors" v-for="error of v$.user.email.$errors" :key="error.$uid">
+    <div class="error-msg">{{ error.$message }}</div>
+  </div>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
+					<div :class="{ error: v$.user.password.$errors.length }" class="wrap-input100 validate-input" data-validate="Enter password">
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
 						<input v-model="user.password" class="input100" type="password" name="pass">
 						<span class="focus-input100" data-placeholder="Password"></span>
+						<div class="input-errors" v-for="error of v$.user.password.$errors" :key="error.$uid">
+    <div class="error-msg">{{ error.$message }}</div>
+  </div>
 					</div>
+
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
@@ -52,25 +59,44 @@
 
 <script>
 import { mapActions } from 'vuex';
+import useVuelidate from '@vuelidate/core'
+import { required, email, minLength, maxLength } from '@vuelidate/validators'
 export default {
   name: 'Login',
   props: {
     msg: String
+  },
+  setup () {
+    return { v$: useVuelidate() }
   },
   data() {
       return {
           user: {
                 email : '',
                 password : ''
-          }
+          },
       }
   },
+  validations () {
+    return {
+		 user: {
+        email: { required, email }, // Matches state.contact.email
+		password: { required, minLength : minLength(10), maxLength : maxLength(30) } // Matches state.contact.email
+      }
+      }
+    },
   methods: {
       ...mapActions({
           'login' : 'auth/login'
       }),
       submit() {
-          this.login(this.user).then(() => this.$router.replace({name: 'Dashboard'}));
+		  this.v$.$validate()
+		  if(!this.v$.$invalid) {
+              this.login(this.user).then(() => this.$router.replace({name: 'Dashboard'}));
+          }
+			  
+
+          
       }
   }
 }
@@ -87,5 +113,11 @@ export default {
 }
 .limiter img {
     width: 50%;
+}
+.error {
+	border-bottom: 2px solid #ff00009e;
+}
+.error-msg {
+    color: #ff00009e;
 }
 </style>
