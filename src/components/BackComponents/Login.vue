@@ -19,10 +19,10 @@
 					</div>
 
 					<div :class="{ error: v$.user.password.$errors.length }" class="wrap-input100 validate-input" data-validate="Enter password">
-						<span class="btn-show-pass">
+						<span @click="showPassword()" class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input v-model="user.password" class="input100" type="password" name="pass">
+						<input v-model="user.password" class="input100" :type="this.typePassword  ? 'password' : 'text'" name="pass">
 						<span class="focus-input100" data-placeholder="Password"></span>
 						<div class="input-errors" v-for="error of v$.user.password.$errors" :key="error.$uid">
     <div class="error-msg">{{ error.$message }}</div>
@@ -75,6 +75,7 @@ export default {
                 email : '',
                 password : ''
           },
+		  typePassword : true
       }
   },
   validations () {
@@ -86,13 +87,41 @@ export default {
       }
     },
   methods: {
+	  showPassword() {
+		  console.log(this.typePassword)
+		  this.typePassword = !this.typePassword
+	  },
       ...mapActions({
           'login' : 'auth/login'
       }),
       submit() {
 		  this.v$.$validate()
 		  if(!this.v$.$invalid) {
-              this.login(this.user).then(() => this.$router.replace({name: 'Dashboard'}));
+			 
+			  let timerInterval
+					Swal.fire({
+					title: 'Verifying',
+					//html: 'Verifying',
+					timer: 1500,
+					timerProgressBar: true,
+					didOpen: () => {
+						Swal.showLoading()
+						const b = Swal.getHtmlContainer().querySelector('b')
+						timerInterval = setInterval(() => {
+						b.textContent = Swal.getTimerLeft()
+						}, 100)
+					},
+					willClose: () => {
+						clearInterval(timerInterval)
+					}
+					}).then((result) => {
+					/* Read more about handling dismissals below */
+					if (result.dismiss === Swal.DismissReason.timer) {
+						this.login(this.user).then(() => this.$router.replace({name: 'Dashboard'}));
+					}
+					})
+
+             
           }
 			  
 

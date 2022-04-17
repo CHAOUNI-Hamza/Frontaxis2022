@@ -2,7 +2,7 @@
 <div v-if="FormCreated" class="col-md-12">
                                 <div class="card card-primary">
                     <div class="card-header">
-                    <h3 class="card-title">Information Axis</h3>
+                    <h3 class="card-title">Information Services</h3>
                     </div>
 
                     <form @submit.prevent="created()" novalidate>
@@ -11,27 +11,47 @@
                             <div class="card-body">
                                   
                                   <div class="form-group">
-                                      <label for="exampleInputEmail1">Name</label>
-                                      <input  :class="{ error: v$.client.name.$errors.length }" v-model="client.name" name="client.name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Name">
-                                      <div class="input-errors" v-for="error of v$.client.name.$errors" :key="error.$uid">
+                                      <label for="exampleInputEmail1">Title</label>
+                                      <input  :class="{ error: v$.produit.title.$errors.length }" v-model="produit.title" name="produit.title" type="text" class="form-control" id="exampleInputEmail1" placeholder="Name">
+                                      <div class="input-errors" v-for="error of v$.produit.title.$errors" :key="error.$uid">
+                                            <div class="error-msg">{{ error.$message }}</div>
+                                        </div>
+                                  </div>
+                                   <div class="form-group">
+                                      <label for="exampleInputEmail1">Description</label>
+                                      <input  :class="{ error: v$.produit.description.$errors.length }" v-model="produit.description" name="produit.description" type="text" class="form-control" id="exampleInputEmail1" placeholder="Name">
+                                      <div class="input-errors" v-for="error of v$.produit.description.$errors" :key="error.$uid">
+                                            <div class="error-msg">{{ error.$message }}</div>
+                                        </div>
+                                  </div>
+                                   <div class="form-group">
+                                      <label for="exampleInputEmail1">Social</label>
+                                      <input  :class="{ error: v$.produit.social.$errors.length }" v-model="produit.social" name="produit.social" type="text" class="form-control" id="exampleInputEmail1" placeholder="Name">
+                                      <div class="input-errors" v-for="error of v$.produit.social.$errors" :key="error.$uid">
                                             <div class="error-msg">{{ error.$message }}</div>
                                         </div>
                                   </div>
                             </div>
                       </div>
                       <div class="col-md-6">
+                         <div class="form-group">
+                            <label for="exampleSelectBorder">Service</label>
+                                  <select v-model="produit.service" class="custom-select form-control-border" id="exampleSelectBorder">
+                                        <option v-for="service in services" :value="service.id" :key="service.id">{{ service.title }}</option>
+                                  </select>
+                            </div>
                           <div class="card-body">
                               <div class="form-group">
-                                    <label for="exampleInputFile">Logo</label>
+                                    <label for="exampleInputFile">Photo</label>
                                     <div class="input-group">
-                                        <div :class="{ error_img: v$.client.photo.$errors.length }" class="custom-file">
-                                            <input  @change="onChangeLogo" name="client.photo" type="file" class="custom-file-input" id="exampleInputFile">
+                                        <div :class="{ error_img: v$.produit.photo.$errors.length }" class="custom-file">
+                                            <input  @change="onChangeLogo" name="produit.photo" type="file" class="custom-file-input" id="exampleInputFile">
                                             <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                         </div>
                                         <div class="input-group-append">
                                         <span class="input-group-text">Upload</span>
                                         </div>
-                                        <div style="margin-left: 11px;" class="input-errors" v-for="error of v$.client.photo.$errors" :key="error.$uid">
+                                        <div style="margin-left: 11px;" class="input-errors" v-for="error of v$.produit.photo.$errors" :key="error.$uid">
                                             <div class="error-msg">{{ error.$message }}</div>
                                         </div>
                                     </div>
@@ -57,7 +77,7 @@ import { required, email } from '@vuelidate/validators'
 export default {
   name: 'FormCreated',
   props: [
-      'FormCreated', 'client'
+      'FormCreated', 'produit', 'services'
   ],
   components: {
 
@@ -72,9 +92,12 @@ export default {
   },
   validations () {
     return {
-		 client: {
-        name: { required },
+		 produit: {
+        title: { required },
         photo: { required },
+        description: { required },
+        social: { required },
+        service: { required },
       }
       }
     },
@@ -82,6 +105,7 @@ export default {
     },
   methods: {
       created() {
+        console.log(this.v$.$errors)
           this.v$.$validate()
           if(!this.v$.$invalid) {
               this.$emit('created')
@@ -94,8 +118,8 @@ export default {
         this.$emit('buttoncacherformecreated')
     }
   },
-  mounted() {
-    
+  computed: {  
+        
   }
 }
 </script>

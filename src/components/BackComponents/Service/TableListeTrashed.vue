@@ -15,17 +15,17 @@
                     <thead>
                     <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Title</th>
                     <th>Logo</th>
                     </tr>
                     </thead>
-                    <tbody v-if="clientssTrashed.length">
-                    <tr v-for="(clients, index) in clientssTrashed" v-bind:key="clients.id">
+                    <tbody v-if="servicessTrashed.length">
+                    <tr v-for="(services, index) in servicessTrashed" v-bind:key="services.id">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ clients.name }}</td>
-                    <td><button @click="modalimg($store.state.UrlBack+clients.photo)"><img :src="$store.state.UrlBack+clients.photo" alt="" width="100%"></button></td>
-                    <td><button @click="restore(clients.id)" class="btn btn-success"><i class="fa fa-recycle" aria-hidden="true"></i></button></td>
-                    <td><button @click="forced(clients.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                    <td>{{ services.title }}</td>
+                    <td><button @click="modalimg($store.state.UrlBack+services.photo)"><img :src="$store.state.UrlBack+services.photo" alt="" width="100%"></button></td>
+                    <td><button @click="restore(services.id)" class="btn btn-success"><i class="fa fa-recycle" aria-hidden="true"></i></button></td>
+                    <td><button @click="forced(services.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                     </tr>
                     </tbody>
                     <tbody v-else>
@@ -58,7 +58,7 @@
 export default {
   name: 'TableListeTrashed',
   props: [
-      'clientssTrashed', 'TableTrashed', 'last_page_trashed'
+      'servicessTrashed', 'TableTrashed', 'last_page_trashed'
   ],
   components: {
 

@@ -66,7 +66,7 @@
                     
                     <!-- start liste table trashed -->                      
                     <TableListeTrashed
-                        :axissTrashed="trasheed"
+                        :clientssTrashed="trasheed"
                         :last_page_trashed="last_page_trashed"
                         :TableTrashed="TableTrashed"
                         @restore="restore($event)"

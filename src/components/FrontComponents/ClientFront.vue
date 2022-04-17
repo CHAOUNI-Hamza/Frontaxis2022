@@ -5,28 +5,8 @@
 
         <div class="row" data-aos="zoom-in">
 
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Lear_Corporation_logo.svg/1200px-Lear_Corporation_logo.svg.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="https://seeklogo.com/images/M/ministere-de-la-sante-maroc-logo-4E2EDBAA10-seeklogo.com.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Logo_inpt.PNG" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/9/90/Logo_ICPC.svg/1200px-Logo_ICPC.svg.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="https://www.sfta.org/img/logo.svg" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="https://g-concours.um5.ac.ma/candidat/img/logo_B.gif" class="img-fluid" alt="">
+          <div v-for="client in clients" :key="client.id" class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img :src="$store.state.UrlBack+client.photo" class="img-fluid" alt="">
           </div>
 
         </div>
@@ -37,10 +17,33 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ClientFront',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      url : 'api/v1/front/clients'
+    }
+  },
+  methods: {
+    // get
+    ...mapActions({
+          'get_' : 'front/get'
+      }),
+      get() {
+          this.get_(this.url);
+      },
+  },
+  mounted() {
+    this.get()
+  },
+  computed: {
+    clients() {
+            return this.$store.getters['front/getFront'];
+        },
   }
 }
 </script>

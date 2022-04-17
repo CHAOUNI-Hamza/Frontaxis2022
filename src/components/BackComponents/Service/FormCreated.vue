@@ -2,7 +2,7 @@
 <div v-if="FormCreated" class="col-md-12">
                                 <div class="card card-primary">
                     <div class="card-header">
-                    <h3 class="card-title">Information Axis</h3>
+                    <h3 class="card-title">Information Services</h3>
                     </div>
 
                     <form @submit.prevent="created()" novalidate>
@@ -11,9 +11,9 @@
                             <div class="card-body">
                                   
                                   <div class="form-group">
-                                      <label for="exampleInputEmail1">Name</label>
-                                      <input  :class="{ error: v$.client.name.$errors.length }" v-model="client.name" name="client.name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Name">
-                                      <div class="input-errors" v-for="error of v$.client.name.$errors" :key="error.$uid">
+                                      <label for="exampleInputEmail1">Title</label>
+                                      <input  :class="{ error: v$.service.title.$errors.length }" v-model="service.title" name="service.title" type="text" class="form-control" id="exampleInputEmail1" placeholder="Name">
+                                      <div class="input-errors" v-for="error of v$.service.title.$errors" :key="error.$uid">
                                             <div class="error-msg">{{ error.$message }}</div>
                                         </div>
                                   </div>
@@ -22,16 +22,16 @@
                       <div class="col-md-6">
                           <div class="card-body">
                               <div class="form-group">
-                                    <label for="exampleInputFile">Logo</label>
+                                    <label for="exampleInputFile">Photo</label>
                                     <div class="input-group">
-                                        <div :class="{ error_img: v$.client.photo.$errors.length }" class="custom-file">
-                                            <input  @change="onChangeLogo" name="client.photo" type="file" class="custom-file-input" id="exampleInputFile">
+                                        <div :class="{ error_img: v$.service.photo.$errors.length }" class="custom-file">
+                                            <input  @change="onChangeLogo" name="service.photo" type="file" class="custom-file-input" id="exampleInputFile">
                                             <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                         </div>
                                         <div class="input-group-append">
                                         <span class="input-group-text">Upload</span>
                                         </div>
-                                        <div style="margin-left: 11px;" class="input-errors" v-for="error of v$.client.photo.$errors" :key="error.$uid">
+                                        <div style="margin-left: 11px;" class="input-errors" v-for="error of v$.service.photo.$errors" :key="error.$uid">
                                             <div class="error-msg">{{ error.$message }}</div>
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@ import { required, email } from '@vuelidate/validators'
 export default {
   name: 'FormCreated',
   props: [
-      'FormCreated', 'client'
+      'FormCreated', 'service'
   ],
   components: {
 
@@ -72,8 +72,8 @@ export default {
   },
   validations () {
     return {
-		 client: {
-        name: { required },
+		 service: {
+        title: { required },
         photo: { required },
       }
       }
