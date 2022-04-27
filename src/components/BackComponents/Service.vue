@@ -230,6 +230,10 @@ export default {
           this.FormCreated = !this.FormCreated
         this.TableListe = true
         this.get()
+        this.service = {
+          photo:'',
+          title:'',
+        }
       },
     // get
     ...mapActions({

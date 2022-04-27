@@ -36,7 +36,7 @@
                       <div class="col-md-6">
                          <div class="form-group">
                             <label for="exampleSelectBorder">Service</label>
-                                  <select v-model="produit.service" class="custom-select form-control-border" id="exampleSelectBorder">
+                                  <select v-model="produit.service_id" class="custom-select form-control-border" id="exampleSelectBorder">
                                         <option v-for="service in services" :value="service.id" :key="service.id">{{ service.title }}</option>
                                   </select>
                             </div>
@@ -97,7 +97,7 @@ export default {
         photo: { required },
         description: { required },
         social: { required },
-        service: { required },
+        service_id: { required },
       }
       }
     },

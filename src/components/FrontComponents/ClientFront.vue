@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import axios from 'axios';
 export default {
   name: 'ClientFront',
   props: {
@@ -25,25 +25,29 @@ export default {
   },
   data() {
     return {
-      url : 'api/v1/front/clients'
+      url : 'api/v1/front/clients',
+      clients: []
     }
   },
   methods: {
-    // get
-    ...mapActions({
-          'get_' : 'front/get'
-      }),
-      get() {
-          this.get_(this.url);
-      },
+    // get clients
+      async get() {
+        try {
+           const response = await axios.get(this.url)
+          this.clients = response.data.data
+         } catch (error) {
+           Swal.fire({
+             icon: 'error',
+             title: 'No Data Found',
+           })
+         }
+       }
   },
   mounted() {
     this.get()
   },
   computed: {
-    clients() {
-            return this.$store.getters['front/getFront'];
-        },
+
   }
 }
 </script>

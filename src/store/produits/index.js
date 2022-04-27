@@ -39,7 +39,6 @@ export default {
   actions: {
     // get
     async get({ commit, state }, filter) {
-      console.log('hhhhhhhhhhhh')
      try {
         const response = await axios.get('api/v1/produit/index?filter='
         + filter.filter +'&sortby='
@@ -178,7 +177,7 @@ export default {
         formData.append('photo', produits.photo);
         formData.append('description', produits.description);
         formData.append('social', produits.social);
-        formData.append('service', produits.service);
+        formData.append('service_id', produits.service_id);
         
         const response = await axios.post('api/v1/produit/store', formData)
         Swal.fire(

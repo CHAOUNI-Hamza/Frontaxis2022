@@ -9,6 +9,7 @@ import Contact from '../components/BackComponents/Contact.vue'
 import Produit from '../components/BackComponents/Produit.vue'
 import Service from '../components/BackComponents/Service.vue'
 import Dashboard from '../components/BackComponents/Dashboard.vue'
+import PageNotFound from '../components/PageNotFound.vue'
 import store from '@/store';
 
 const routes = [
@@ -142,7 +143,8 @@ const routes = [
       next()
 
     }
-  }
+  },
+  { path: "/:pathMatch(.*)*", component: PageNotFound, name: 'NotFound' },
 ]
 
 const router = createRouter({

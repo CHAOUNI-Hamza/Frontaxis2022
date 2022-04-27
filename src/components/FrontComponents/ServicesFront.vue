@@ -11,8 +11,8 @@
         <div class="row">
           <div v-for="service in services" :key="service.id" class="col-xl-4 col-md-6 d-flex align-items-stretch mb-3" data-aos="zoom-in" data-aos-delay="100">
             <div class="icon-box text-center">
-              <h4 class="text-uppercase"><a href="#">Impression Numérique</a></h4>
-              <img src="http://www.cs-creatives-cameroun.com/core/boutique/prod5ac59bce99e81.jpg" alt="" width="100%">
+              <h4 class="text-uppercase"><a href="#">{{ service.title }}</a></h4>
+              <img :src="$store.state.UrlBack+service.photo" alt="img">
               <!--<div class="icon"><i class="bx bxl-dribbble"></i></div>
               <h4><a href="">Lorem Ipsum</a></h4>
               <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>--> 
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import axios from 'axios';
 export default {
   name: 'ServiceFront',
   props: {
@@ -34,25 +34,27 @@ export default {
   },
   data() {
     return {
-      url : 'api/v1/front/services'
+      url : 'api/v1/front/services',
+      services: []
     }
   },
   methods: {
-    // get
-    ...mapActions({
-          'get_' : 'front/get'
-      }),
-      get() {
-          this.get_(this.url);
-      },
+    // get Services
+      async get() {
+        try {
+           const response = await axios.get(this.url)
+          this.services = response.data.data
+         } catch (error) {
+           
+         }
+       },
+
   },
   mounted() {
     this.get()
   },
   computed: {
-    services() {
-            return this.$store.getters['front/getFront'];
-        },
+
   }
 }
 </script>
@@ -94,5 +96,10 @@ export default {
 }
 .services .icon-box:hover h4 a {
   color: #47b2e4;
+}
+.services img {
+    vertical-align: middle;
+    border-style: none;
+    width: 100%;
 }
 </style>

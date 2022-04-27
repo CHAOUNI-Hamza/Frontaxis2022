@@ -10,99 +10,17 @@
 
         <ul id="portfolio-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
           <li data-filter="*" class="filter-active">All</li>
-          <li data-filter=".filter-app">App</li>
-          <li data-filter=".filter-card">Card</li>
-          <li data-filter=".filter-web">Web</li>
+          <li v-for="service in services" :key="service.id" :data-filter="'.'+ service.slug">{{ service.title }}</li>
         </ul>
 
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+          <div v-for="produit in produits" :key="produit.id" :class="'col-lg-4 col-md-6 portfolio-item ' + produit.service">
             <div class="portfolio-img"><img src="https://covervault.com/wp-content/uploads/2018/07/093-5.5x8.5-Front-and-Back-Paperback-Book-Mockup_Prev1.jpg" class="img-fluid" alt=""></div>
             <div class="portfolio-info">
-              <h4>test 1</h4>
-              <p>test</p>
+              <h4>{{ produit.title }}</h4>
+              <p>{{ produit.service }}</p>
               <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-img"><img src="https://s3-eu-west-1.amazonaws.com/yi-files/content/2017/02/5996c5ae193f6.jpg" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 3</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-img"><img src="https://www.melanie-luciani.com/wp-content/uploads/2017/11/MOCKUP-carte-visite-ELLIPTIS-1024x745.jpg" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 2</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 2"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-img"><img src="https://png.clipart.me/istock/previews/9114/91140367-mock-up-with-a-pencil-pen-flash-and-key-ring.jpg" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 2</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 2"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-img"><img src="https://i.pinimg.com/originals/11/e8/dd/11e8dd7b86a6d7853118482e1fd66e42.png" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 2</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 2"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-img"><img src="https://visionstrategique.com/wp-content/uploads/2020/12/Management-visuel-7.jpg" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 3</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 3"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-img"><img src="http://idesignstudio.net/wp-content/uploads/2012/10/Company-Pylon-Sign-Mock-up-022.jpg" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 1</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 1"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-img"><img src="http://mockupplanet.com/wp-content/uploads/2019/09/Free-Display-Poster-Mockup-Design.jpg" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 3</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
-              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-img"><img src="https://covervault.com/wp-content/uploads/2018/07/093-5.5x8.5-Front-and-Back-Paperback-Book-Mockup_Prev1.jpg" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>test 3</h4>
-              <p>test</p>
-              <a href="#" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
               <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
             </div>
           </div>
@@ -114,10 +32,48 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  name: 'HelloWorld',
+  name: 'ProduitFront',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      urlService : 'api/v1/front/services',
+      urlProduit : 'api/v1/front/produits',
+      services: [],
+      produits: []
+    }
+  },
+  methods: {
+    // get Services
+      async getServices() {
+        try {
+           const response = await axios.get(this.urlService)
+          this.services = response.data.data
+          this.services
+         } catch (error) {
+           
+         }
+       },
+       // get Produits
+      async getProduits() {
+        try {
+           const response = await axios.get(this.urlProduit)
+          this.produits = response.data.data
+         } catch (error) {
+           
+         }
+       },
+
+  },
+  mounted() {
+    this.getServices()
+    this.getProduits()
+  },
+  computed: {
+
   }
 }
 </script>

@@ -141,7 +141,7 @@ export default {
           title:'',
           description:'',
           social:'',
-          service:'',
+          service_id:'',
         },
         produits: [],
         produitsTrashed: [],
@@ -195,7 +195,7 @@ export default {
           title:'',
           description:'',
           social:'',
-          service:'',
+          service_id:'',
         }
     },
     // function cacher form edition
@@ -206,7 +206,7 @@ export default {
           title:'',
           description:'',
           social:'',
-          service:'',
+          service_id:'',
         }
     },
     // function cacher form trashed
@@ -247,7 +247,7 @@ export default {
           title:'',
           description:'',
           social:'',
-          service:'',
+          service_id:'',
         }
       },
     // get
@@ -275,7 +275,7 @@ export default {
           title: response.data.data.title,
           description: response.data.data.description,
           social: response.data.data.social,
-          service: response.data.data.service,
+          service_id: response.data.data.service_id,
         }
       } catch (error) {
         Swal.fire({
@@ -292,7 +292,7 @@ export default {
         formData.append('photo', this.produit.photo);
         formData.append('description', this.produit.description);
         formData.append('social', this.produit.social);
-        formData.append('service', this.produit.service);
+        formData.append('service_id', this.produit.service_id);
 
         const response = await axios.post('api/v1/produit/update/'+ id, formData)
 
@@ -303,7 +303,7 @@ export default {
           title:'',
           description:'',
           social:'',
-          service:'',
+          service_id:'',
         }
         this.get()
 

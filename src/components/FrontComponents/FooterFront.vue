@@ -24,23 +24,22 @@
           <div class="col-lg-3 col-md-6 footer-contact">
             <h3>AXIS DESIGN</h3>
             <p>
-              2 Rue Oued Loukous,<br>
-              sectour 3, Hay Safae<br>
-              Salé <br><br>
-              <strong>Telephone:</strong><br>06 61 73 02 10 - 05 37 83 47 02<br>
-              <strong>Email:</strong> axisdesigne@gmail.com<br>
+              {{ axis.address }}<br><br>
+              <!--<strong>Gsm:</strong><br>{{ axis.social.Gsm }}<br>
+              <strong>Fix:</strong><br>{{ axis.social.Fix }}<br>
+              <strong>Email:</strong><br>{{ axis.email }}-->
             </p>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Liens utiles</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Accueil</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Agence</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Equipe</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Contact</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#hero">Accueil</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#about">Agence</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Services</a></li>
+              <!--<li><i class="bx bx-chevron-right"></i> <a href="#portfolio">Equipe</a></li>-->
+              <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contact</a></li>
+              <!--<li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>-->
             </ul>
           </div>
 
@@ -59,11 +58,11 @@
             <h4>Nos réseaux sociaux</h4>
             <p>Notre équipe met tout en œuvre afin de répondre à vos attentes avec rigueur, professionnalisme et écoute .</p>
             <div class="social-links mt-3">
-              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              <!--<a :href="'https://www.facebook.com/' + axis.social.twitter" target="_blank" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a :href="'https://www.facebook.com/' + axis.social.facebook" target="_blank" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a :href="'https://www.facebook.com/' + axis.social.instagram" target="_blank" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a :href="'https://www.facebook.com/' + axis.social.skype" target="_blank" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a :href="'https://www.facebook.com/' + axis.social.linkedin" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>-->
             </div>
           </div>
 
@@ -88,10 +87,35 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  name: 'FotterFront',
+  name: 'FooterFront',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      url : 'api/v1/front/axis',
+      axis: []
+    }
+  },
+  methods: {
+    // get axis
+      async get() {
+        try {
+           const response = await axios.get(this.url)
+          this.axis = response.data.data
+          console.log('this.axis.social')
+          console.log(this.axis.social.Fix)
+         } catch (error) {
+           
+         }
+       },
+  },
+  mounted() {
+    this.get()
+  },
+  computed: {
   }
 }
 </script>

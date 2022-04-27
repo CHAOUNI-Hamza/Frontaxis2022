@@ -21,10 +21,7 @@ export default {
            const response = await axios.get(url)
            commit('setFront', response.data.data)
          } catch (error) {
-           Swal.fire({
-             icon: 'error',
-             title: 'No Data Found',
-           })
+          router.push({ name: 'Home' })
          }
        }
   },

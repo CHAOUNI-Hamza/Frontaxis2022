@@ -15,14 +15,14 @@
               <div class="address">
                 <i class="bi bi-geo-alt"></i>
                 <h4>Localisation:</h4>
-                <p>2 Rue Oued Loukous, sectour 3, Hay Safae - Salé
+                <p>{{ axis.address }}
 </p>
               </div>
 
               <div class="email">
                 <i class="bi bi-envelope"></i>
                 <h4>Email:</h4>
-                <p>axisdesigne@gmail.com</p>
+                <p>{{ axis.email }}</p>
               </div>
 
               <div class="phone">
@@ -31,30 +31,42 @@
                 <p>06 61 73 02 10 - 05 37 83 47 02</p>
               </div>
 
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.2497322700297!2d-6.7737542848369845!3d34.06311192460476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7698cc48f7a17%3A0x6f83d9ef50b92a3e!2zTGFheWF5ZGEsIFNhbMOp!5e0!3m2!1sfr!2sma!4v1643989331327!5m2!1sfr!2sma" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+              <iframe :src="axis.localisation" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
             </div>
 
           </div>
 
           <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form class="php-email-form">
+            <form @submit.prevent="created()" novalidate class="php-email-form">
               <div class="row">
                 <div class="form-group col-md-6">
                   <label for="name">Nom et prénom</label>
-                  <input type="text" name="name" class="form-control" id="name" required>
+                  <input :class="{ error: v$.contact.name.$errors.length }" v-model="contact.name" type="text" name="name" class="form-control" id="name" required>
+                  <div class="input-errors" v-for="error of v$.contact.name.$errors" :key="error.$uid">
+                                            <div class="error-msg">{{ error.$message }}</div>
+                                        </div>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="name">Email</label>
-                  <input type="email" class="form-control" name="email" id="email" required>
+                  <input :class="{ error: v$.contact.email.$errors.length }" v-model="contact.email" type="email" class="form-control" name="email" id="email" required>
+                  <div class="input-errors" v-for="error of v$.contact.email.$errors" :key="error.$uid">
+                                            <div class="error-msg">{{ error.$message }}</div>
+                                        </div>
                 </div>
               </div>
               <div class="form-group">
                 <label for="name">Sujet</label>
-                <input type="text" class="form-control" name="subject" id="subject" required>
+                <input :class="{ error: v$.contact.subject.$errors.length }" v-model="contact.subject" type="text" class="form-control" name="subject" id="subject" required>
+                <div class="input-errors" v-for="error of v$.contact.subject.$errors" :key="error.$uid">
+                                            <div class="error-msg">{{ error.$message }}</div>
+                                        </div>
               </div>
               <div class="form-group">
                 <label for="name">Message</label>
-                <textarea class="form-control" name="message" rows="10" required></textarea>
+                <textarea :class="{ error: v$.contact.message.$errors.length }" v-model="contact.message" class="form-control" name="message" rows="10" required></textarea>
+                <div class="input-errors" v-for="error of v$.contact.message.$errors" :key="error.$uid">
+                                            <div class="error-msg">{{ error.$message }}</div>
+                                        </div>
               </div>
               <div class="my-3">
                 <div class="loading">Loading</div>
@@ -73,15 +85,93 @@
 </template>
 
 <script>
+import axios from 'axios';
+import useVuelidate from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
+
 export default {
   name: 'ContactFront',
   props: {
     msg: String
+  },
+  setup () {
+    return { v$: useVuelidate() }
+  },
+  data() {
+    return {
+      url : 'api/v1/front/axis',
+      axis: [],
+      contact: {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      }
+    }
+  },
+  validations () {
+    return {
+		 contact: {
+        name: { required },
+        email: { required },
+        subject: { required },
+        message: { required },
+      }
+      }
+    },
+  methods: {
+    // get axis
+      async get() {
+        try {
+           const response = await axios.get(this.url)
+          this.axis = response.data.data
+          console.log('this.axis.social')
+          console.log(this.axis.social.Fix)
+         } catch (error) {
+           
+         }
+       },
+       // created contact
+       async created() {
+         console.log(this.v$.$invalid)
+         this.v$.$validate()
+          if(!this.v$.$invalid) {
+              
+              try {
+        
+        
+        const response = await axios.post('api/v1/contacts/store', this.contact)
+        this.contact = {
+                name: '',
+                email: '',
+                subject: '',
+                message: ''
+              }
+        Swal.fire(
+            'Created',
+            '',
+            'success'
+            )
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'No Data Found',
+        })
+      }
+
+          }
+      
+  }
+  },
+  mounted() {
+    this.get()
+  },
+  computed: {
   }
 }
 </script>
 
-<style>
+<style scoped>
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
@@ -249,5 +339,15 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.error {
+	border-bottom: 2px solid #ff00009e;
+}
+.error-msg {
+    color: #ff00009e;
+}
+.error_img {
+    border-bottom: 40px solid #ff00009e;
 }
 </style>
