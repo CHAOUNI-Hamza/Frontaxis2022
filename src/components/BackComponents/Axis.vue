@@ -23,16 +23,7 @@
                             <!-- button created -->
                             <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
-                        <div class="col-md-3" v-if="!TableTrashed">
-                            <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search   <i class="fa fa-refresh" aria-hidden="true"></i></button>
-                        </div>
                     </div>
-
-                    <!-- start form search -->
-                    <Search 
-                    :filterGet="filterGet"
-                    :TableTrashed="TableTrashed"
-                     />
 
                     <!-- start form created -->
                     <FormCreated 
@@ -56,8 +47,6 @@
                     
                     <!-- start liste table -->
                     <TableListe
-                        :filterGet="filterGet"
-                        :last_page="last_page"
                         :axiss="counter"
                         :TableListe="TableListe"
                         @deletee="deletee($event)"
@@ -68,7 +57,6 @@
                     <!-- start liste table trashed -->                      
                     <TableListeTrashed
                         :axissTrashed="trasheed"
-                        :last_page_trashed="last_page_trashed"
                         :TableTrashed="TableTrashed"
                         @restore="restore($event)"
                         @forced="forced($event)"
@@ -95,7 +83,6 @@ import TableListe from './Axis/TableListe.vue'
 import TableListeTrashed from './Axis/TableListeTrashed.vue'
 import FormCreated from './Axis/FormCreated.vue'
 import FormUpdated from './Axis/FormUpdated.vue'
-import Search from './Axis/Search.vue'
 import HeaderAdmin from './Axis/HeaderAdmin.vue'
 import axios from 'axios'
 
@@ -117,12 +104,10 @@ export default {
     TableListeTrashed,
     FormCreated,
     FormUpdated,
-    Search,
     HeaderAdmin
   },
   data() {
       return {
-        Search: '',
         // affiche et cacher Table Trashed
         TableTrashed: false,
         // affiche et cacher formulaire created
@@ -147,48 +132,11 @@ export default {
         },
         axiss: [],
         axissTrashed: [],
-        // variable de filter
-        filterGet: {
-              filter: 'email',
-              sortby: 'id',
-              orderby: 'asc',
-              filtervalue: '',
-              paginate: '5',
-              created_at: '',
-              updated_at: '',
-              expand: '',
-              date_from: '',
-              date_to: '',
-              page: 1
-        }
       }
   },
     watch: {
-
-      filterGet: {
-                handler: function (newQ, old) {
-          this.get()
-                },
-                deep: true
-            }
     },
   methods: {
-    // function pour vider les input de recherche
-    emptyfieldsearch() {
-      this.filterGet = {
-              filter: 'email',
-              sortby: 'id',
-              orderby: 'asc',
-              filtervalue: '',
-              paginate: '5',
-              created_at: '',
-              updated_at: '',
-              expand: '',
-              date_from: '',
-              date_to: '',
-              page: 1
-        }
-    },
     // function cacher form edition
     buttoncacherformedition() {
       this.FormEdition = !this.FormEdition
@@ -276,14 +224,14 @@ export default {
           'get_' : 'axis/get'
       }),
       get() {
-          this.get_(this.filterGet);
+          this.get_();
       },
     // trashed
     ...mapActions({
           'getTrashed_' : 'axis/trashed'
       }),
       getTrashed() {
-          this.getTrashed_(this.filterGet);
+          this.getTrashed_();
       },
     // edit
     async edit(id) {
@@ -381,12 +329,6 @@ export default {
         },
         trasheed() {
             return this.$store.getters['axis/getTrashed'];
-        },
-        last_page() {
-          return this.$store.getters['axis/getLastPage'];
-        },
-        last_page_trashed() {
-          return this.$store.getters['axis/getLastPageTrashed'];
         }
   }
 }

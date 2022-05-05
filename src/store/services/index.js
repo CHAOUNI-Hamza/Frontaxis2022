@@ -99,6 +99,8 @@ export default {
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
+
+            axios.delete('api/v1/services/destroy/'+ id)
             
             Swal.fire(
               'Deleted!',
@@ -108,7 +110,6 @@ export default {
           }
         })
 
-        const response = await axios.delete('api/v1/services/destroy/'+ id)
           
         } catch (error) {
           Swal.fire({
@@ -150,6 +151,8 @@ export default {
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
+
+            axios.post('api/v1/services/forced/'+ id)
             
             Swal.fire(
               'Deleted!',
@@ -159,7 +162,6 @@ export default {
           }
         })
 
-        const response = await axios.post('api/v1/services/forced/'+ id)
 
 
         } catch (error) {

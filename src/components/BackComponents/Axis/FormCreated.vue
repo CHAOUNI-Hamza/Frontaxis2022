@@ -153,6 +153,7 @@ export default {
     },
   methods: {
       created() {
+          console.log(this.v$)
           this.v$.$validate()
           if(!this.v$.$invalid) {
               this.$emit('created')

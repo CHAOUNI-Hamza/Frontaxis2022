@@ -4,8 +4,6 @@ export default {
   state: {
     axiss : [],
     axissTrashed: [],
-    last_page: [],
-    last_page_trashed: [],
     id_update: 1
   },
   mutations: {
@@ -15,12 +13,6 @@ export default {
     setTrashed(state, data) {
       state.axissTrashed = data
     },
-    setLastPage(state, data) {
-      state.last_page = data
-    },
-    setLastPageTrashed(state, data) {
-      state.last_page = data
-    }
   },
   getters: {
     getAxiss(state) {
@@ -28,32 +20,14 @@ export default {
     },
     getTrashed(state) {
       return state.axissTrashed
-    },
-    getLastPage(state) {
-      return state.last_page
-    },
-    getLastPageTrashed(state) {
-      return state.last_page_trashed
     }
   },
   actions: {
     // get
     async get({ commit, state }, filter) {
      try {
-        const response = await axios.get('api/v1/company/index?filter='
-        + filter.filter +'&sortby='
-        + filter.sortby +'&orderby='
-        + filter.orderby +'&filtervalue='
-        + filter.filtervalue +'&paginate='
-        + filter.paginate +'&created_at='
-        + filter.created_at +'&updated_at='
-        + filter.updated_at +'&expand='
-        + filter.expand+'&page='
-        + filter.page+'&date_to='
-        + filter.date_to+'&date_from='
-        + filter.date_from)
+        const response = await axios.get('api/v1/company/index')
         commit('setAxiss', response.data.data)
-        commit('setLastPage', response.data.meta.last_page)
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -74,7 +48,6 @@ export default {
         + filter.updated_at +'&expand='
         + filter.expand +'&page='+ filter.page)
         commit('setTrashed', response.data.data)
-        //commit('setLastPageTrashed', response.data.meta.last_page)
       } catch (error) {
         console.log(error)
         Swal.fire({
@@ -99,6 +72,8 @@ export default {
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
+
+            axios.delete('api/v1/company/destroy/'+ id)
             
             Swal.fire(
               'Deleted!',
@@ -108,7 +83,7 @@ export default {
           }
         })
 
-        const response = await axios.delete('api/v1/company/destroy/'+ id)
+        
           
         } catch (error) {
           Swal.fire({
@@ -150,6 +125,8 @@ export default {
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.isConfirmed) {
+
+            axios.post('api/v1/company/forced/'+ id)
             
             Swal.fire(
               'Deleted!',
@@ -158,8 +135,6 @@ export default {
             )
           }
         })
-
-        const response = await axios.post('api/v1/company/forced/'+ id)
 
 
         } catch (error) {

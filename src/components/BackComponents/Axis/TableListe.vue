@@ -1,10 +1,79 @@
 <template>
-      <div v-if="TableListe" class="col-12">
+
+<div class="container-fluid">
+<div class="row">
+<div class="col-12">
+
+<div class="invoice p-3 mb-3">
+
+<div class="row">
+<div class="col-12">
+<h4>
+<i class="fas fa-globe"></i> Information Axis
+</h4>
+</div>
+
+</div>
+
+<div class="row invoice-info">
+<div class="col-sm-4 invoice-col">
+
+<address>
+<strong>Address :</strong><br>
+{{ axiss.address }}<br>
+</address>
+<strong>Email :</strong><br>
+{{ axiss.email }}<br><br>
+
+<strong>Phone :</strong><br>
+{{ axiss.phone }}<br><br>
+
+<!--<strong>Social :</strong><br>
+Fax : {{ axiss.social.Fax }}<br>
+Fix : {{ axiss.social.Fix }}<br>
+Gsm : {{ axiss.social.Gsm }}<br>
+Tél : {{ axiss.social.Tel }}<br>
+Wathssap : {{ axiss.social.wathssap }}<br>
+Facebook : {{ axiss.social.Facebook }}<br>
+Twitter : {{ axiss.social.Twitter }}<br>
+Linkedin : {{ axiss.social.Linkedin }}<br>
+Instagram : {{ axiss.social.instagram }}<br>
+Twitter : {{ axiss.social.twitter }}<br>-->
+</div>
+
+<div class="col-sm-4 invoice-col">
+
+<strong>Logo</strong><br><br>
+<img :src="$store.state.UrlBack+axiss.logo" alt=""><br><br>
+
+<strong>Photo Carousel</strong><br><br>
+<img :src="$store.state.UrlBack+axiss.photo_carousel" alt=""><br>
+</div>
+
+<div class="col-sm-4 invoice-col">
+<strong>Photo Agency</strong><br><br>
+<img :src="$store.state.UrlBack+axiss.photo_agency" alt="">
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+</div>
+</div>
+
+
+
+
+      <!--<div v-if="TableListe" class="col-12">
             <div class="card">
                   <div class="card-header">
                       <h3 class="card-title">Table Liste</h3>
                       <div class="card-tools">
-                      <!--<div class="input-group input-group-sm" style="width: 150px;">
+                      <div class="input-group input-group-sm" style="width: 150px;">
                       <input type="text" name="filterGet" v-model="Search" class="form-control float-right" placeholder="Search">
 
                       <div class="input-group-append">
@@ -12,7 +81,7 @@
                       <i class="fas fa-search"></i>
                       </button>
                       </div>
-                      </div>-->
+                      </div>
                       </div>
                   </div>
 
@@ -68,7 +137,7 @@
 </ul>
 </div>
             </div>
-      </div>
+      </div>-->
 </template>
 
 <script>
@@ -77,7 +146,7 @@
 export default {
   name: 'TableListe',
   props: [
-      'axiss', 'TableListe', 'last_page', 'filterGet'
+      'axiss', 'TableListe'
   ],
   components: {
     
@@ -112,6 +181,7 @@ export default {
     
   },
   mounted() {
+    console.log(this.axiss)
   }
 }
 </script>
@@ -130,5 +200,8 @@ export default {
 .wrapper .content .table .btn {
     width: 70%;
     margin-bottom: 20px;
+}
+img {
+  width: 80%;
 }
 </style>
