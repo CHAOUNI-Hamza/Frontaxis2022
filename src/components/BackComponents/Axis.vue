@@ -10,20 +10,20 @@
         <div class="content"> 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="row">
-                        <div class="col-md-3" v-if="!TableTrashed">
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-3" v-if="!TableTrashed">-->
                             <!-- button affiche trashed -->
-                            <button ref="test" @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
-                        </div>
-                        <div class="col-md-3" v-if="TableTrashed">
+                            <!--<button ref="test" @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </div>-->
+                        <!--<div class="col-md-3" v-if="TableTrashed">-->
                             <!-- button remove trashed -->
-                            <button @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached   <i class="fa fa-minus" aria-hidden="true"></i></button>
-                        </div>
-                        <div class="col-md-3" v-if="!FormCreated && !TableTrashed && !FormEdition">
+                           <!-- <button @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached   <i class="fa fa-minus" aria-hidden="true"></i></button>
+                       </div>-->
+                        <!--<div class="col-md-3" v-if="!FormCreated && !TableTrashed && !FormEdition">-->
                             <!-- button created -->
-                            <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
+                            <!--<button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </div>-->
+                    <!--</div>-->
 
                     <!-- start form created -->
                     <FormCreated 
@@ -140,6 +140,7 @@ export default {
     // function cacher form edition
     buttoncacherformedition() {
       this.FormEdition = !this.FormEdition
+      this.TableListe = true
       this.axis = {
           logo:'',
           photo_carousel:'',
@@ -237,6 +238,7 @@ export default {
     async edit(id) {
       try {
         this.FormEdition = !this.FormEdition
+        this.TableListe = false
         const response = await axios.get('api/v1/company/index?expand='+ id)
         this.axis = {
           id: response.data.data.id,
@@ -250,6 +252,7 @@ export default {
           localisation: response.data.data.localisation,
           social: response.data.data.social,
         }
+        
       } catch (error) {
         Swal.fire({
           icon: 'error',
