@@ -226,6 +226,7 @@ export default {
           'created_' : 'clients/created'
       }),
       created() {
+        console.log('hhhhhh');
           this.created_(this.client);
           this.FormCreated = !this.FormCreated
         this.TableListe = true

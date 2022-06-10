@@ -56,12 +56,12 @@
                   <p>Clients</p>
                 </router-link>
               </li>
-              <li class="nav-item">
+             <!-- <li class="nav-item">
                 <router-link :to="{ name: 'Companie'}" class="nav-link">
                   <i class="fa fa-copyright nav-icon" aria-hidden="true"></i>
                   <p>Companies</p>
                 </router-link>
-              </li>
+              </li>-->
               <li class="nav-item">
                 <router-link :to="{ name: 'Contact'}" class="nav-link">
                   <i class="fa fa-commenting nav-icon" aria-hidden="true"></i>

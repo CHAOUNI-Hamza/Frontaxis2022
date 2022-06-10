@@ -286,6 +286,7 @@ export default {
     },
     // update
   async update(id) {
+    console.log(this.produit.title)
     try {
         let formData = new FormData();
         formData.append('title', this.produit.title);
@@ -314,6 +315,7 @@ export default {
         )
 
       } catch (error) {
+        console.log(error)
           Swal.fire({
           icon: 'error',
           title: 'No Data Found',

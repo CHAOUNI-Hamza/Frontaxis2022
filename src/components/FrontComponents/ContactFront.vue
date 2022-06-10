@@ -133,25 +133,23 @@ export default {
        },
        // created contact
        async created() {
-         console.log(this.v$.$invalid)
-         this.v$.$validate()
-          if(!this.v$.$invalid) {
               
               try {
         
         
         const response = await axios.post('api/v1/contacts/store', this.contact)
+        Swal.fire(
+            'Message Envoyer',
+            '',
+            'success'
+            )
         this.contact = {
                 name: '',
                 email: '',
                 subject: '',
                 message: ''
               }
-        Swal.fire(
-            'Created',
-            '',
-            'success'
-            )
+        
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -159,7 +157,7 @@ export default {
         })
       }
 
-          }
+          
       
   }
   },

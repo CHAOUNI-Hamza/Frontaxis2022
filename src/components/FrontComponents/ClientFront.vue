@@ -3,9 +3,9 @@
     <section id="clients" class="clients section-bg">
       <div class="container">
 
-        <div class="row" data-aos="zoom-in">
+        <div class="row justify-content-center" data-aos="zoom-in">
 
-          <div v-for="client in clients" :key="client.id" class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <div v-for="client in clients" :key="client.id" class="col-lg-2 col-md-4 col-6 d-flex align-items-center">
             <img :src="$store.state.UrlBack+client.photo" class="img-fluid" alt="">
           </div>
 
