@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center" data-aos="zoom-in">
 
-          <div v-for="client in clients" :key="client.id" class="col-lg-2 col-md-4 col-6 d-flex align-items-center">
+          <div v-for="client in clients" :key="client.id" class="col-lg-2 col-md-4 col-6 align-items-center">
             <img :src="$store.state.UrlBack+client.photo" class="img-fluid" alt="">
           </div>
 
@@ -36,10 +36,7 @@ export default {
            const response = await axios.get(this.url)
           this.clients = response.data.data
          } catch (error) {
-           Swal.fire({
-             icon: 'error',
-             title: 'No Data Found',
-           })
+
          }
        }
   },

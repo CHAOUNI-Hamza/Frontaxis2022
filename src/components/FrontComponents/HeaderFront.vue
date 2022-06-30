@@ -5,48 +5,28 @@
     <div class="container d-flex align-items-center">
 
       <h1 class="logo me-auto">
-        <a href="#">
-          <img src="@/assets/logo.svg" alt="logo axis" width="100%">
+        <a href="#accueil">
+          <img :src="$store.state.UrlBack+axis.logo" alt="logo axis" width="100%">
         </a>
       </h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-      <nav id="navbar" class="navbar">
+      <nav id="navbar" class="navbar" v-on:click="addClass" :class="{'navbar-mobile': isNavbarMobile}">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Accueil</a></li>
-          <li><a class="nav-link scrollto" href="#about">Agence</a></li>
-          <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link   scrollto" href="#portfolio">Produits</a></li>
-          <!--<li><a class="nav-link scrollto" href="#team">Équipe</a></li>-->
-          <!--<li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-            </ul>
-          </li>-->
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="#about">Commencer</a></li>
+          <li><a class="nav-link scrollto" href="#accueil" v-bind:class="{ active: active === 'accueil' }" v-on:click="setFilter('accueil')">Accueil</a></li>
+          <li><a class="nav-link scrollto" href="#agence" v-bind:class="{ active: active === 'agence' }" v-on:click="setFilter('agence')">Agence</a></li>
+          <li><a class="nav-link scrollto" href="#services" v-bind:class="{ active: active === 'services' }" v-on:click="setFilter('services')">Services</a></li>
+          <li><a class="nav-link scrollto" href="#produit" v-bind:class="{ active: active === 'produit' }" v-on:click="setFilter('produit')">Produits</a></li>
+          <li><a class="nav-link scrollto" href="#contact" v-bind:class="{ active: active === 'contact' }" v-on:click="setFilter('contact')">Contact</a></li>
+          <li><a class="getstarted scrollto" href="#agence" v-bind:class="{ active: active === 'agence' }" v-on:click="setFilter('agence')">Commencer</a></li>
         </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+        <i @click="showNavbarMobile" class="bi mobile-nav-toggle" v-bind:class="{ 'bi-x': isNavbarMobile == true, 'bi-list': isNavbarMobile == false }"></i>
+      </nav>
 
     </div>
   </header>
   <!-- End Header -->
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
+  <!-- ======= accueil Section ======= -->
+  <section id="accueil" class="d-flex align-items-center">
 
     <div class="container">
       <div class="row">
@@ -54,26 +34,54 @@
           <h1>Agence de la communication et la publicité.</h1>
           <h2>Plus de 16 ans au services</h2>
           <div class="d-flex justify-content-center justify-content-lg-start">
-            <a href="#about" class="btn-get-started scrollto">Commencer</a>
-            <!--<a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>-->
+            <a href="#agence" class="btn-get-started scrollto">Commencer</a>
           </div>
         </div>
-        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-          <img src="http://www.axisdesign.ma/images/axis/1593393791-1592865155-shutterstock_1229747458-Converti.png" class="img-fluid animated" alt="">
+        <div class="col-lg-6 order-1 order-lg-2 accueil-img" data-aos="zoom-in" data-aos-delay="200">
+          <img :src="$store.state.UrlBack+axis.photo_carousel" class="img-fluid animated" alt="">
         </div>
       </div>
     </div>
 
   </section>
-  <!-- End Hero -->
+  <!-- End accueil -->
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'HeaderFront',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      active : 'accueil',
+      isNavbarMobile : false,
+      url : 'api/v1/front/axis',
+      axis: []
+    }
+  },
+  methods: {
+    setFilter: function(filter) {
+      this.active = filter;
+    },
+    showNavbarMobile() {
+      this.isNavbarMobile = !this.isNavbarMobile
+    },
+    // get axis
+      async get() {
+        try {
+           const response = await axios.get(this.url)
+          this.axis = response.data.data
+         } catch (error) {
+           
+         }
+       },
+},
+  mounted() {
+    this.get()
   }
 }
 </script>
@@ -104,6 +112,7 @@ export default {
   color: #fff;
 }
 #header .logo img {
+  width: 100%;
   max-height: 40px;
 }
 
@@ -217,7 +226,7 @@ export default {
 * Mobile Navigation 
 */
 .mobile-nav-toggle {
-  color: #fff;
+  color: #47b2e4;
   font-size: 28px;
   cursor: pointer;
   display: none;
@@ -226,6 +235,9 @@ export default {
 }
 .mobile-nav-toggle.bi-x {
   color: #fff;
+}
+.mobile-nav-toggle.bi-list {
+  color: #47b2e4;
 }
 
 @media (max-width: 991px) {
@@ -305,29 +317,29 @@ export default {
   display: block;
 }
 /*--------------------------------------------------------------
-# Hero Section
+# accueil Section
 --------------------------------------------------------------*/
-#hero {
+#accueil {
   width: 100%;
   height: 80vh;
   background: white;
 }
-#hero .container {
+#accueil .container {
   padding-top: 72px;
 }
-#hero h1 {
+#accueil h1 {
   margin: 0 0 10px 0;
   font-size: 48px;
   font-weight: 700;
   line-height: 56px;
   color: #47b2e4;
 }
-#hero h2 {
+#accueil h2 {
   color: rgb(71 178 228);
   margin-bottom: 50px;
   font-size: 24px;
 }
-#hero .btn-get-started {
+#accueil .btn-get-started {
   font-family: "Jost", sans-serif;
   font-weight: 500;
   font-size: 16px;
@@ -340,10 +352,10 @@ export default {
   color: #fff;
   background: #47b2e4;
 }
-#hero .btn-get-started:hover {
+#accueil .btn-get-started:hover {
   background: #209dd8;
 }
-#hero .btn-watch-video {
+#accueil .btn-watch-video {
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -352,54 +364,54 @@ export default {
   color: #fff;
   line-height: 1;
 }
-#hero .btn-watch-video i {
+#accueil .btn-watch-video i {
   line-height: 0;
   color: #fff;
   font-size: 32px;
   transition: 0.3s;
   margin-right: 8px;
 }
-#hero .btn-watch-video:hover i {
+#accueil .btn-watch-video:hover i {
   color: #47b2e4;
 }
-#hero .animated {
+#accueil .animated {
   animation: up-down 2s ease-in-out infinite alternate-reverse both;
 }
 @media (max-width: 991px) {
-  #hero {
-    height: 100vh;
+  #accueil {
+    height: 75vh;
     text-align: center;
   }
-  #hero .animated {
+  #accueil .animated {
     -webkit-animation: none;
     animation: none;
   }
-  #hero .hero-img {
+  #accueil .accueil-img {
     text-align: center;
   }
-  #hero .hero-img img {
+  #accueil .accueil-img img {
     width: 50%;
   }
 }
 @media (max-width: 768px) {
-  #hero h1 {
+  #accueil h1 {
     font-size: 28px;
     line-height: 36px;
   }
-  #hero h2 {
+  #accueil h2 {
     font-size: 18px;
     line-height: 24px;
     margin-bottom: 30px;
   }
-  #hero .hero-img img {
+  #accueil .accueil-img img {
     width: 70%;
   }
 }
 @media (max-width: 575px) {
-  #hero .hero-img img {
+  #accueil .accueil-img img {
     width: 80%;
   }
-  #hero .btn-get-started {
+  #accueil .btn-get-started {
     font-size: 16px;
     padding: 10px 24px 11px 24px;
   }
