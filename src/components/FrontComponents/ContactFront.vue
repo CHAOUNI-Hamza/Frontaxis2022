@@ -15,8 +15,7 @@
               <div class="address">
                 <i class="bi bi-geo-alt"></i>
                 <h4>Localisation:</h4>
-                <p>{{ axis.address }}
-</p>
+                <p>{{ axis.address }}</p>
               </div>
 
               <div class="email">
@@ -28,7 +27,7 @@
               <div class="phone">
                 <i class="bi bi-phone"></i>
                 <h4>Tél:</h4>
-                <p>06 61 73 02 10 - 05 37 83 47 02</p>
+                <p>{{ axis.phone }}</p>
               </div>
 
               <iframe :src="axis.localisation" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
@@ -37,36 +36,38 @@
           </div>
 
           <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+
+            
+
             <form @submit.prevent="created()" novalidate class="php-email-form">
               <div class="row">
+                <div class="form-group col-md-12">
+                  <div v-for="error in formErrors" :key="error.id" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
                 <div class="form-group col-md-6">
                   <label for="name">Nom et prénom</label>
-                  <input :class="{ error: v$.contact.name.$errors.length }" v-model="contact.name" type="text" name="name" class="form-control" id="name" required>
-                  <div class="input-errors" v-for="error of v$.contact.name.$errors" :key="error.$uid">
-                                            <div class="error-msg">{{ error.$message }}</div>
-                                        </div>
+                  <input  v-model="contact.name" type="text" name="name" class="form-control" id="name">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="name">Email</label>
-                  <input :class="{ error: v$.contact.email.$errors.length }" v-model="contact.email" type="email" class="form-control" name="email" id="email" required>
-                  <div class="input-errors" v-for="error of v$.contact.email.$errors" :key="error.$uid">
-                                            <div class="error-msg">{{ error.$message }}</div>
-                                        </div>
+                  <input v-model="contact.email" type="email" class="form-control" name="email" id="email">
+
                 </div>
               </div>
               <div class="form-group">
                 <label for="name">Sujet</label>
-                <input :class="{ error: v$.contact.subject.$errors.length }" v-model="contact.subject" type="text" class="form-control" name="subject" id="subject" required>
-                <div class="input-errors" v-for="error of v$.contact.subject.$errors" :key="error.$uid">
-                                            <div class="error-msg">{{ error.$message }}</div>
-                                        </div>
+                <input v-model="contact.subject" type="text" class="form-control" name="subject" id="subject">
+     
               </div>
               <div class="form-group">
                 <label for="name">Message</label>
-                <textarea :class="{ error: v$.contact.message.$errors.length }" v-model="contact.message" class="form-control" name="message" rows="10" required></textarea>
-                <div class="input-errors" v-for="error of v$.contact.message.$errors" :key="error.$uid">
-                                            <div class="error-msg">{{ error.$message }}</div>
-                                        </div>
+                <textarea v-model="contact.message" class="form-control" name="message" rows="10"></textarea>
+       
               </div>
               <div class="my-3">
                 <div class="loading">Loading</div>
@@ -86,16 +87,11 @@
 
 <script>
 import axios from 'axios';
-import useVuelidate from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
 
 export default {
   name: 'ContactFront',
   props: {
     msg: String
-  },
-  setup () {
-    return { v$: useVuelidate() }
   },
   data() {
     return {
@@ -106,58 +102,79 @@ export default {
         email: '',
         subject: '',
         message: ''
-      }
+      },
+      formErrors: [],
     }
   },
-  validations () {
-    return {
-		 contact: {
-        name: { required },
-        email: { required },
-        subject: { required },
-        message: { required },
-      }
-      }
-    },
   methods: {
     // get axis
       async get() {
         try {
            const response = await axios.get(this.url)
           this.axis = response.data.data
-          console.log('this.axis.social')
-          console.log(this.axis.social.Fix)
          } catch (error) {
            
          }
        },
        // created contact
-       async created() {
-              
-              try {
-        
-        
-        const response = await axios.post('api/v1/contacts/store', this.contact)
-        Swal.fire(
-            'Message Envoyer',
-            '',
-            'success'
-            )
-        this.contact = {
-                name: '',
-                email: '',
-                subject: '',
-                message: ''
-              }
-        
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'No Data Found',
-        })
-      }
+       async created(e) {       
+               try {
+                let timerInterval
+                Swal.fire({
+                  title: 'Envoi en cours',
+                  //html: 'I will close in <b></b> milliseconds.',
+                  timer: 2000,
+                  timerProgressBar: true,
+                  didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                      b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  willClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  /* Read more about handling dismissals below */
+                  if (result.dismiss === Swal.DismissReason.timer) {
+                  
 
-          
+                    const response = axios.post('api/v1/contacts/store', this.contact)
+                        Swal.fire(
+                            'Message Envoyer',
+                            '',
+                            'success'
+                            )
+                        this.contact = {
+                                name: '',
+                                email: '',
+                                subject: '',
+                                message: ''
+                              }
+                  }
+                })
+      } catch (error) {
+        
+
+              this.formErrors = [];
+
+            if (!this.contact.name) {
+              this.formErrors.push("Name Obligatoire!");
+            }
+            if (!this.contact.email) {
+              this.formErrors.push("Email Obligatoire!");
+            }
+            if (!this.contact.subject) {
+              this.formErrors.push("Sujet  Obligatoire!");
+            }
+            if (!this.contact.message) {
+              this.formErrors.push("Message Obligatoire!");
+            }
+
+
+      }        
+              e.preventDefault();     
       
   }
   },

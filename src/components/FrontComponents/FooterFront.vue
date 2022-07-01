@@ -24,10 +24,8 @@
           <div class="col-lg-3 col-md-6 footer-contact">
             <h3>AXIS DESIGN</h3>
             <p>
-              {{ axis.address }}<br><br>
-              <!--<strong>Gsm:</strong><br>{{ axis.social.Gsm }}<br>
-              <strong>Fix:</strong><br>{{ axis.social.Fix }}<br>
-              <strong>Email:</strong><br>{{ axis.email }}-->
+              {{ axis.address }}<br>
+              <strong>Gsm :</strong><br>{{ axis.phone }}
             </p>
           </div>
 
@@ -46,11 +44,7 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Nos services</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Impression Numérique</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Impression Offset</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Conception Graphique</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Management Visuel</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Evénementielle et Audiovisuelle</a></li>
+              <li v-for="service in services" :key="service.id"><i class="bx bx-chevron-right"></i> <a href="#">{{ service.title }}</a></li>
             </ul>
           </div>
 
@@ -96,7 +90,9 @@ export default {
   data() {
     return {
       url : 'api/v1/front/axis',
-      axis: []
+      urlService: 'api/v1/front/services',
+      axis: [],
+      services: []
     }
   },
   methods: {
@@ -105,15 +101,23 @@ export default {
         try {
            const response = await axios.get(this.url)
           this.axis = response.data.data
-          console.log('this.axis.social')
-          console.log(this.axis.social.Fix)
+         } catch (error) {
+           
+         }
+       },
+    // get Services
+      async getService() {
+        try {
+           const response = await axios.get(this.urlService)
+          this.services = response.data.data
          } catch (error) {
            
          }
        },
   },
   mounted() {
-    this.get()
+    this.get(),
+    this.getService()
   },
   computed: {
   }
