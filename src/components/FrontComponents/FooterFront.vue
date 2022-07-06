@@ -9,9 +9,15 @@
           <div class="col-lg-6">
             <h4>Rejoignez notre newsletter</h4>
             <!--<p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>-->
-            <form>
-              <input type="email" name="email"><input type="submit" value="S'abonner">
+            <form @submit.prevent="created()">
+              <input v-model="sabonner.email" type="email" name="email"><input type="submit" value="S'abonner">
             </form>
+            <div style="margin-top: 10px;" v-for="error in formErrors" :key="error.id" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ error }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
           </div>
         </div>
       </div>
@@ -52,10 +58,9 @@
             <h4>Nos réseaux sociaux</h4>
             <p>Notre équipe met tout en œuvre afin de répondre à vos attentes avec rigueur, professionnalisme et écoute .</p>
             <div class="social-links mt-3">
-              <!--<a :href="'https://www.facebook.com/' + axis.social.twitter" target="_blank" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a :href="'https://www.facebook.com/' + axis.social.facebook" target="_blank" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <!--<a :href="'https://www.facebook.com/' + axis.social.facebook" target="_blank" class="twitter"><i class="bx bxl-twitter"></i></a>
               <a :href="'https://www.facebook.com/' + axis.social.instagram" target="_blank" class="instagram"><i class="bx bxl-instagram"></i></a>
-              <a :href="'https://www.facebook.com/' + axis.social.skype" target="_blank" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a :href="'https://www.facebook.com/' + axis.social.google-plus" target="_blank" class="google-plus"><i class="bx bxl-skype"></i></a>
               <a :href="'https://www.facebook.com/' + axis.social.linkedin" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>-->
             </div>
           </div>
@@ -92,7 +97,11 @@ export default {
       url : 'api/v1/front/axis',
       urlService: 'api/v1/front/services',
       axis: [],
-      services: []
+      services: [],
+      sabonner: {
+        email: ''
+      },
+      formErrors: [],
     }
   },
   methods: {
@@ -101,6 +110,7 @@ export default {
         try {
            const response = await axios.get(this.url)
           this.axis = response.data.data
+          console.log(response.data.data.social.facebook)
          } catch (error) {
            
          }
@@ -114,6 +124,59 @@ export default {
            
          }
        },
+    // created sabonner
+    async created(e) {
+
+      this.formErrors = [];
+
+            if (!this.sabonner.email) {
+              this.formErrors.push("Email Obligatoire!");
+            }
+
+      if (!this.formErrors.length) {
+               try {
+                let timerInterval
+                Swal.fire({
+                  title: 'Envoi en cours',
+                  //html: 'I will close in <b></b> milliseconds.',
+                  timer: 2000,
+                  timerProgressBar: true,
+                  didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                      b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  willClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  /* Read more about handling dismissals below */
+                  if (result.dismiss === Swal.DismissReason.timer) {
+                  
+
+                    const response = axios.post('api/v1/sabonner/store', this.sabonner)
+                        Swal.fire(
+                            'Merci de vous être abonné',
+                            '',
+                            'success'
+                            )
+                        this.sabonner = {
+                              email: '',
+                              }
+                  }
+                })
+      } catch (error) {
+        
+
+              
+
+
+      }       } 
+              e.preventDefault();     
+      
+  }
   },
   mounted() {
     this.get(),

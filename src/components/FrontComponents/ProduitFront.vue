@@ -1,33 +1,42 @@
 <template>
 <div>
     <section id="produit" class="produit">
-     <div class="container" data-aos="fade-up">
-       <div class="section-title">
-          <h2>PRODUITS</h2>
-         
-        </div>
-              <ul>
-                    <li @click="dataFilter" class="list" data-filter="all" v-bind:class="{ active: nDFilter === 'all' }">All</li>
-                    <li @click="dataFilter" class="list" v-for="service in services" :key="service.id" :data-filter="service.slug" v-bind:class="{ active: nDFilter === service.slug }">{{ service.title.toUpperCase() }}</li>
-            </ul>
-            <div class="product" data-aos="fade-up" data-aos-delay="200">
-                  <div v-for="produit in produits" :key="produit.id" class="itemBox" :data-item="produit.service" v-bind:class="[nDFilter == produit.service || nDFilter == 'all' ? 'active' : 'hideproduit']">
-                    <img :src="$store.state.UrlBack+produit.photo" alt="">
-                  </div>
-            </div>
-     </div>
+      <div class="container" data-aos="fade-up">
+          <div class="section-title">
+              <h2>PRODUITS</h2>   
+          </div>
+          <ul>
+              <li 
+                  @click="dataFilter" class="list"
+                  data-filter="all"
+                  v-bind:class="{ active: nDFilter === 'all' }">
+                  All
+              </li>
+              <li 
+                  @click="dataFilter" class="list"
+                  v-for="service in services"
+                  :key="service.id"
+                  :data-filter="service.slug"
+                  v-bind:class="{ active: nDFilter === service.slug }">
+                  {{ service.title.toUpperCase() }}
+              </li>
+          </ul>
+          <div class="product" data-aos="fade-up" data-aos-delay="200">
+              <div 
+                v-for="produit in produits"
+                :key="produit.id" class="itemBox"
+                :data-item="produit.service"
+                v-bind:class="[nDFilter == produit.service || nDFilter == 'all' ? 'active' : 'hideproduit']"
+              >
+                <img :src="$store.state.UrlBack+produit.photo" alt="">
+              </div>
+          </div>
+      </div>
     </section>
 </div>
-
 </template>
 
 <script>
-
-
-
-
-
-
 import axios from 'axios';
 export default {
   name: 'ProduitFront',

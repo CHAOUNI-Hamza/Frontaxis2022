@@ -160,6 +160,7 @@ export default {
           }
       },
     onChangeLogo(e) {
+        
       this.$emit('onChangeLogo', e)
     },
     onChangePhotoCarousel(e) {

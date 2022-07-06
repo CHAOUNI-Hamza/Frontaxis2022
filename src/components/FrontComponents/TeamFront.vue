@@ -1,4 +1,3 @@
-
 <template>
   <div>
       <section id="team" class="team section-bg">

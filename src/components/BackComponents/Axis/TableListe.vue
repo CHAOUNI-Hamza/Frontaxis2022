@@ -28,31 +28,31 @@
                         <strong>Phone :</strong><br>
                         {{ axiss.phone }}<br><br>
 
-                        <!--<strong>Social :</strong><br>
-                        Fax : {{ axiss.social.Fax }}<br>
+                        <strong>Social :</strong><br>
+                        <!--Fax : {{ axiss.social.Fax }}<br>
                         Fix : {{ axiss.social.Fix }}<br>
                         Gsm : {{ axiss.social.Gsm }}<br>
                         Tél : {{ axiss.social.Tel }}<br>
-                        Wathssap : {{ axiss.social.wathssap }}<br>
-                        Facebook : {{ axiss.social.Facebook }}<br>
-                        Twitter : {{ axiss.social.Twitter }}<br>
-                        Linkedin : {{ axiss.social.Linkedin }}<br>
+                        Wathssap : {{ axiss.social.wathssap }}<br>-->
+                        <!--Facebook : {{ axiss.social.facebook }}<br>
+                        Twitter : {{ axiss.social.twitter }}<br>
+                        Linkedin : {{ axiss.social.linkedin }}<br>
                         Instagram : {{ axiss.social.instagram }}<br>
-                        Twitter : {{ axiss.social.twitter }}<br>-->
+                        Google Plus : {{ axiss.social.google-plus }}<br>-->
                   </div>
 
                   <div class="col-sm-4 invoice-col">
 
                         <strong>Logo</strong><br><br>
-                        <img :src="$store.state.UrlBack+axiss.logo" alt=""><br><br>
+                        <img :src="$store.state.UrlBack+axiss.logo" alt="Logo"><br><br>
 
                         <strong>Photo Carousel</strong><br><br>
-                        <img :src="$store.state.UrlBack+axiss.photo_carousel" alt=""><br>
+                        <img :src="$store.state.UrlBack+axiss.photo_carousel" alt="Photo Carousel"><br>
                   </div>
 
                   <div class="col-sm-4 invoice-col">
                         <strong>Photo Agency</strong><br><br>
-                        <img :src="$store.state.UrlBack+axiss.photo_agency" alt="">
+                        <img :src="$store.state.UrlBack+axiss.photo_agency" alt="Photo Agency">
                   </div>
             </div>
             <div class="row">

@@ -2,15 +2,11 @@
   <div>
     <section id="clients" class="clients section-bg">
       <div class="container">
-
         <div class="row justify-content-center" data-aos="zoom-in">
-
           <div v-for="client in clients" :key="client.id" class="col-lg-2 col-md-4 col-6 align-items-center">
             <img :src="$store.state.UrlBack+client.photo" class="img-fluid" alt="">
           </div>
-
         </div>
-
       </div>
     </section>
   </div>

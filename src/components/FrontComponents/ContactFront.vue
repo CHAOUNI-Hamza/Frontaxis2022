@@ -117,8 +117,24 @@ export default {
          }
        },
        // created contact
-       async created(e) {       
-               try {
+       async created(e) {  
+        this.formErrors = [];
+
+            if (!this.contact.name) {
+              this.formErrors.push("Name Obligatoire!");
+            }
+            if (!this.contact.email) {
+              this.formErrors.push("Email Obligatoire!");
+            }
+            if (!this.contact.subject) {
+              this.formErrors.push("Sujet  Obligatoire!");
+            }
+            if (!this.contact.message) {
+              this.formErrors.push("Message Obligatoire!");
+            }
+
+        if (!this.formErrors.length) {
+        try {
                 let timerInterval
                 Swal.fire({
                   title: 'Envoi en cours',
@@ -157,23 +173,12 @@ export default {
       } catch (error) {
         
 
-              this.formErrors = [];
-
-            if (!this.contact.name) {
-              this.formErrors.push("Name Obligatoire!");
-            }
-            if (!this.contact.email) {
-              this.formErrors.push("Email Obligatoire!");
-            }
-            if (!this.contact.subject) {
-              this.formErrors.push("Sujet  Obligatoire!");
-            }
-            if (!this.contact.message) {
-              this.formErrors.push("Message Obligatoire!");
-            }
+              
 
 
-      }        
+      }
+      }     
+                       
               e.preventDefault();     
       
   }
