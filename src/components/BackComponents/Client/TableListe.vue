@@ -80,7 +80,6 @@ export default {
       this.$emit('deletee', id)
     },
     edit(id) {
-      console.log('hhhhhh')
       this.$emit('edit', id)
     },
     get() {

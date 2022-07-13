@@ -1,51 +1,42 @@
 <template>
 <div v-if="TableTrashed" class="col-12">
                     <div class="card">
-                    <div class="card-header">
-                    <h3 class="card-title">Table Liste Trashed</h3>
-                    <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                    
-                    </div>
-                    </div>
-                    </div>
+                      <div class="card-header">
+                        <h3 class="card-title">Table Liste Trashed</h3>
+                        <div class="card-tools">
+                          <div class="input-group input-group-sm" style="width: 150px;">
+                          
+                          </div>
+                        </div>
+                      </div>
 
-                    <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
-                    <thead>
-                    <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Logo</th>
-                    </tr>
-                    </thead>
-                    <tbody v-if="clientssTrashed.length">
-                    <tr v-for="(clients, index) in clientssTrashed" v-bind:key="clients.id">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ clients.name }}</td>
-                    <td><button @click="modalimg($store.state.UrlBack+clients.photo)"><img :src="$store.state.UrlBack+clients.photo" alt="" width="100%"></button></td>
-                    <td><button @click="restore(clients.id)" class="btn btn-success"><i class="fa fa-recycle" aria-hidden="true"></i></button></td>
-                    <td><button @click="forced(clients.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                    </tr>
-                    </tbody>
-                    <tbody v-else>
-                      <tr>
-                        <td>
-                          Lodding ...
-                        </td>
-                      </tr>
-                    </tbody>
-                    <!--<Pagination :data="laravelData" @pagination-change-page="getResults" />-->
-                    </table>
-                    </div>
-                   <!-- <div class="card-footer clearfix" v-if="axissTrashed.length">
-<ul class="pagination pagination-sm m-0 float-right">
-<li class="page-item"><button @click="filterGet.page = '1'" class="page-link" href="#">»</button></li>
-<li class="page-item" v-for="index  in last_page_trashed" v-bind:key="index "><button @click="filterGet.page = index" class="page-link">{{ index  }}</button></li>
-<li class="page-item"><button @click="filterGet.page = last_page_trashed" class="page-link" href="#">»</button></li>
-</ul>
-</div>-->
-
+                      <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Logo</th>
+                            </tr>
+                          </thead>
+                          <tbody v-if="clientssTrashed.length">
+                            <tr v-for="(clients, index) in clientssTrashed" v-bind:key="clients.id">
+                              <td>{{ index + 1 }}</td>
+                              <td>{{ clients.name }}</td>
+                              <td><button @click="modalimg($store.state.UrlBack+clients.photo)"><img :src="$store.state.UrlBack+clients.photo" alt="" width="100%"></button></td>
+                              <td><button @click="restore(clients.id)" class="btn btn-success"><i class="fa fa-recycle" aria-hidden="true"></i></button></td>
+                              <td><button @click="forced(clients.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                            </tr>
+                          </tbody>
+                          <tbody v-else>
+                            <tr>
+                              <td>
+                                Lodding ...
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
 
                     </div>

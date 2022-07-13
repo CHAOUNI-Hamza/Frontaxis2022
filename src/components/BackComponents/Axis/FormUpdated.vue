@@ -71,6 +71,11 @@
                                 v-if="filePreview"
                                 :style="{ 'background-image': `url(${filePreview})` }">
                               </div>
+                              <div
+                                class="previewBlock"
+                                v-if="!filePreview"
+                                :style="{ 'background-image': `url(${$store.state.UrlBack+axis.logo})` }">
+                              </div>
                               </div>
                               <div class="input-errors" v-for="error of v$.axis.logo.$errors" :key="error.$uid">
                                     <div class="error-msg">{{ error.$message }}</div>
@@ -91,6 +96,11 @@
                                 v-if="filePreviewcarousel"
                                 :style="{ 'background-image': `url(${filePreviewcarousel})` }">
                               </div>
+                              <div
+                                class="previewBlock"
+                                v-if="!filePreview"
+                                :style="{ 'background-image': `url(${$store.state.UrlBack+axis.photo_carousel})` }">
+                              </div>
                               </div>
                               <div class="input-errors" v-for="error of v$.axis.photo_carousel.$errors" :key="error.$uid">
                                     <div class="error-msg">{{ error.$message }}</div>
@@ -110,6 +120,11 @@
                                 class="previewBlock"
                                 v-if="filePreviewagence"
                                 :style="{ 'background-image': `url(${filePreviewagence})` }">
+                              </div>
+                              <div
+                                class="previewBlock"
+                                v-if="!filePreview"
+                                :style="{ 'background-image': `url(${$store.state.UrlBack+axis.photo_agency})` }">
                               </div>
                               </div>
                               <div class="input-errors" v-for="error of v$.axis.photo_agency.$errors" :key="error.$uid">
@@ -218,7 +233,6 @@ export default {
     },
     // onChangeLogo
     onChangeLogo(e) {
-      console.log(e.target.result)
       this.$emit('onChangeLogo', e)
     },
     // onChangePhotoCarousel
@@ -272,6 +286,6 @@ export default {
   width: 100%;;
   height: 280px;        
   margin: 20px 0 20px 0;
-  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>

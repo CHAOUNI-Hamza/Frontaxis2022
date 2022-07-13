@@ -13,18 +13,18 @@
                     <div class="row">
                         <div class="col-md-3" v-if="!TableTrashed">
                             <!-- button affiche trashed -->
-                            <button ref="test" @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached   <i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button ref="test" @click="buttonshowtrached()" type="button" class="btn btn-block btn-danger btn-sm">Trached&ensp;<i class="fa fa-trash" aria-hidden="true"></i></button>
                         </div>
                         <div class="col-md-3" v-if="TableTrashed">
                             <!-- button remove trashed -->
-                            <button @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached   <i class="fa fa-minus" aria-hidden="true"></i></button>
+                            <button @click="buttonremoveformtrashed()" type="button" class="btn btn-block btn-danger btn-sm">Remove Trached&ensp;<i class="fa fa-minus" aria-hidden="true"></i></button>
                         </div>
                         <div class="col-md-3" v-if="!FormCreated && !TableTrashed && !FormEdition">
                             <!-- button created -->
-                            <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created   <i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button @click="ButtonCreated()" type="button" class="btn btn-block btn-success btn-sm">Created&ensp;<i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                         <div class="col-md-3" v-if="!TableTrashed">
-                            <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search   <i class="fa fa-refresh" aria-hidden="true"></i></button>
+                            <button @click="emptyfieldsearch()" class="btn btn-block btn-success btn-sm" data-v-29acd89a="">Emptys Search&ensp;<i class="fa fa-refresh" aria-hidden="true"></i></button>
                         </div>
                     </div>
 
@@ -156,7 +156,6 @@ export default {
       }
   },
     watch: {
-
       filterGet: {
                 handler: function (newQ, old) {
           this.get()
@@ -226,7 +225,6 @@ export default {
           'created_' : 'clients/created'
       }),
       created() {
-        console.log('hhhhhh');
           this.created_(this.client);
           this.FormCreated = !this.FormCreated
         this.TableListe = true
@@ -281,6 +279,11 @@ export default {
         this.TableListe = true
         this.get()
 
+        this.client = {
+            photo:'',
+            name:'',
+          }
+
        Swal.fire(
         'Updated',
         '',
@@ -302,6 +305,7 @@ export default {
           this.delete_(id);
           this.FormEdition = this.FormEdition
           this.TableListe = true
+
           this.get()
       },
     // restore
