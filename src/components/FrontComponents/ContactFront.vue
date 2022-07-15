@@ -157,6 +157,12 @@ export default {
                   
 
                     const response = axios.post('api/v1/contacts/store', this.contact)
+
+                    Echo.private(`App.Models.Contact.${this.contact.email}`)
+    .listen('.PostUpdated', (e) => {
+        console.log(e.model);
+    });
+
                         Swal.fire(
                             'Message Envoyer',
                             '',
